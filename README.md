@@ -91,7 +91,16 @@ This module is a medical search system that processes queries, searches multiple
 
 ## Medication Wallet
 
-A secure, user-centric module to manage and track personal medications. Features include dosage reminders, refill alerts, side effect tracking, and interaction warnings using FDA and WHO databases.
+![Medication Wallet App](https://nbahador.github.io/healthcare-ai-demos-api/Medication_Wallet/app.png)
+
+![Medication Wallet Demo 2](https://nbahador.github.io/healthcare-ai-demos-api/Medication_Wallet/demo2.png)
+
+[Explore the workflow of the system that identifies medications from photos and generates detailed safety reports.](https://nbahador.github.io/healthcare-ai-demos-api/Medication_Wallet/workflow.html)
+
+![Medication Wallet Demo 1](https://nbahador.github.io/healthcare-ai-demos-api/Medication_Wallet/demo1.png)
+
+[View a sample safety report for Ibuprofen, including dosage instructions, side effects, drug interactions, and safety warnings.](https://nbahador.github.io/healthcare-ai-demos-api/Medication_Wallet/report.html)
+
 
 [⬆ Back to Table of Contents](#table-of-contents)
 
