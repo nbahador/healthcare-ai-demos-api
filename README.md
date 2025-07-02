@@ -25,18 +25,18 @@ This repository showcases a collection of innovative AI-powered healthcare appli
 
 | Section | Description |
 |---------|-------------|
-| [🛡️ Fall Prevention Analysis System](#-fall-prevention-analysis-system) | Environmental risk assessment for fall prevention |
-| [📊 Medical Case Analysis System](#-medical-case-analysis-system) | Historical case matching and analysis |
-| [🔍 Medical Search Report](#-medical-search-report) | Multi-source medical information retrieval |
-| [📋 Medical Case Report](#-medical-case-report) | Comprehensive case documentation and analysis |
-| [🩺 Medical Symptom Analyzer](#-medical-symptom-analyzer) | AI-powered symptom triage and assessment |
-| [💊 Medication Wallet](#-medication-wallet) | Medication identification and safety reports |
-| [🤖 Multi Modal AI Agent](#-multi-modal-ai-agent) | Advanced reasoning with text and image processing |
-| [📄 Patient Oriented Discharge Summary](#-patient-oriented-discharge-summary) | Patient-friendly discharge documentation |
+| [Fall Prevention Analysis System](#fall-prevention-analysis-system) | Environmental risk assessment for fall prevention |
+| [Medical Case Analysis System](#medical-case-analysis-system) | Historical case matching and analysis |
+| [Medical Search Report](#medical-search-report) | Multi-source medical information retrieval |
+| [Medical Case Report](#medical-case-report) | Comprehensive case documentation and analysis |
+| [Medical Symptom Analyzer](#medical-symptom-analyzer) | AI-powered symptom triage and assessment |
+| [Medication Wallet](#medication-wallet) | Medication identification and safety reports |
+| [Multi Modal AI Agent](#multi-modal-ai-agent) | Advanced reasoning with text and image processing |
+| [Patient Oriented Discharge Summary](#patient-oriented-discharge-summary) | Patient-friendly discharge documentation |
 
 ---
 
-## 🛡️ Fall Prevention Analysis System
+## Fall Prevention Analysis System {#fall-prevention-analysis-system}
 
 <div align="center">
   <img src="https://nbahador.github.io/healthcare-ai-demos-api/Fall_analysis_report/demo_report_image.png" alt="Fall Analysis Report" width="600" />
@@ -50,11 +50,11 @@ Advanced environmental risk assessment system that analyzes images to identify p
 - 📋 **[Sample Report](https://nbahador.github.io/healthcare-ai-demos-api/Fall_analysis_report/fall_analysis_report_20250630_225500.html)** - Example fall hazard assessment report
 
 
-[⬆ Back to Table of Contents](#🗂️-table-of-contents)
+[⬆ Back to Table of Contents](#table-of-contents)
 
 ---
 
-## 📊 Medical Case Analysis System
+## Medical Case Analysis System {#medical-case-analysis-system}
 
 <div align="center">
   <img src="https://nbahador.github.io/healthcare-ai-demos-api/Medical-case-analysis/images/deploying_10.jpg" alt="Medical Case Analysis" width="500" />
@@ -69,11 +69,11 @@ Intelligent case matching system that leverages AI embeddings to identify simila
   <img src="https://nbahador.github.io/healthcare-ai-demos-api/Medical-case-analysis/images/deploying_9.jpg" alt="Analysis Results" width="400" />
 </div>
 
-[⬆ Back to Table of Contents](#🗂️-table-of-contents)
+[⬆ Back to Table of Contents](#table-of-contents)
 
 ---
 
-## 🔍 Medical Search Report
+## Medical Search Report {#medical-search-report}
 
 <div align="center">
   <img src="https://nbahador.github.io/healthcare-ai-demos-api/Medical_Search_Report/demo1.png" alt="Medical Search Demo" width="600" />
@@ -87,11 +87,11 @@ Comprehensive medical information retrieval system that processes queries across
 - 📄 **[Sample Report](https://nbahador.github.io/healthcare-ai-demos-api/Medical_Search_Report/medical_report.html)** - Clinical analysis for 60-year-old female patient
 
 
-[⬆ Back to Table of Contents](#🗂️-table-of-contents)
+[⬆ Back to Table of Contents](#table-of-contents)
 
 ---
 
-## 📋 Medical Case Report
+## Medical Case Report {#medical-case-report}
 
 <div align="center">
   <img src="https://nbahador.github.io/healthcare-ai-demos-api/Medical_case_report/demo1.png" alt="Case Report Demo" width="600" />
@@ -105,11 +105,11 @@ Advanced case documentation system that extracts structured information from med
 - 📊 **[Detailed Report](https://nbahador.github.io/healthcare-ai-demos-api/Medical_case_report/medical_case_report_20250630_115744.html)** - Comprehensive case analysis example
 
 
-[⬆ Back to Table of Contents](#🗂️-table-of-contents)
+[⬆ Back to Table of Contents](#table-of-contents)
 
 ---
 
-## 🩺 Medical Symptom Analyzer
+## Medical Symptom Analyzer {#medical-symptom-analyzer}
 
 <div align="center">
   <img src="https://nbahador.github.io/healthcare-ai-demos-api/Medical_Symptom_Analyzer/App.png" alt="Symptom Analyzer App" width="500" />
@@ -128,11 +128,11 @@ AI-powered triage system that analyzes patient symptoms and provides structured 
 - 🚨 **[Urgent Case Report](https://nbahador.github.io/healthcare-ai-demos-api/Medical_Symptom_Analyzer/report_45yo_male_20250701_205911.html)** - Sample assessment for respiratory emergency
 
 
-[⬆ Back to Table of Contents](#🗂️-table-of-contents)
+[⬆ Back to Table of Contents](#table-of-contents)
 
 ---
 
-## 💊 Medication Wallet
+## Medication Wallet {#medication-wallet}
 
 <div align="center">
   <img src="https://nbahador.github.io/healthcare-ai-demos-api/Medication_Wallet/app.png" alt="Medication Wallet App" width="500" />
@@ -152,11 +152,11 @@ Intelligent medication identification system that uses computer vision to recogn
 - 💊 **[Safety Report](https://nbahador.github.io/healthcare-ai-demos-api/Medication_Wallet/report.html)** - Comprehensive Ibuprofen safety analysis
 
 
-[⬆ Back to Table of Contents](#🗂️-table-of-contents)
+[⬆ Back to Table of Contents](#table-of-contents)
 
 ---
 
-## 🤖 Multi-Modal AI Agent
+## Multi-Modal AI Agent {#multi-modal-ai-agent}
 
 <div align="center">
   <img src="https://nbahador.github.io/healthcare-ai-demos-api/Multi_Modal_AI_Agent/demo1.png" alt="Multi-Modal AI Demo" width="600" />
@@ -176,11 +176,11 @@ Advanced AI system utilizing the Qwen2.5-VL-72B-Instruct model through Nebius AP
 - 📊 **[Sample Analysis](https://nbahador.github.io/healthcare-ai-demos-api/Multi_Modal_AI_Agent/report_2.html)** - Comprehensive multi-modal medical report
 
 
-[⬆ Back to Table of Contents](#🗂️-table-of-contents)
+[⬆ Back to Table of Contents](#table-of-contents)
 
 ---
 
-## 📄 Patient Oriented Discharge Summary
+## Patient Oriented Discharge Summary {#patient-oriented-discharge-summary}
 
 <div align="center">
   <img src="https://nbahador.github.io/healthcare-ai-demos-api/Patient_Oriented_Discharge_Summary_HTML_report/demo2.png" alt="PODS Report Demo" width="500" />
@@ -200,7 +200,7 @@ Specialized system for creating Patient Oriented Discharge Summary (PODS) report
 - 📋 **[Sample PODS Report](https://nbahador.github.io/healthcare-ai-demos-api/Patient_Oriented_Discharge_Summary_HTML_report/pods_report_20250630_195050.html)** - Complete patient discharge summary
 
 
-[⬆ Back to Table of Contents](#🗂️-table-of-contents)
+[⬆ Back to Table of Contents](#table-of-contents)
 
 ---
 
@@ -209,5 +209,3 @@ Specialized system for creating Patient Oriented Discharge Summary (PODS) report
 - **Gradio Agents-MCP Hackathon**
 - **Nebius** - For providing $25 API credits to power hackathon projects
 - **Modal Labs** - For providing $250 credits to build serverless AI applications during the hackathon.
-
----
