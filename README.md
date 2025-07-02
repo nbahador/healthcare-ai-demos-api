@@ -21,8 +21,9 @@ This project was developed as part of the **Gradio Agents-MCP Hackathon**, which
 
 The Fall Prevention Analysis System evaluates environmental risks from images to help reduce fall hazards through detailed assessments and actionable reports.
 
-[View the visual document outlining the Fall Prevention Analysis System workflow, including key steps, technologies, and models.](https://nbahador.github.io/healthcare-ai-demos-api/Fall_analysis_report/Workflow.html)
+👉 [Click here to view the visual document outlining the Fall Prevention Analysis System workflow, including key steps, technologies, and models.](https://nbahador.github.io/healthcare-ai-demos-api/Fall_analysis_report/Workflow.html)
 
+👉 [Click here to view the Fall Hazard Assessment Report](https://nbahador.github.io/healthcare-ai-demos-api/Fall_analysis_report/fall_analysis_report_20250630_225500.html)
 
 [⬆ Back to Table of Contents](#table-of-contents)
 
