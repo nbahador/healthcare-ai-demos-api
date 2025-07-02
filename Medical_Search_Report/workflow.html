@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Search System - Processing Journey</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            overflow-x: auto;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .journey-container {
+            position: relative;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        .flow-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #4CAF50, #2196F3, #FF9800, #9C27B0, #F44336);
+            border-radius: 2px;
+            z-index: 1;
+            animation: flowAnimation 3s infinite;
+        }
+
+        @keyframes flowAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .steps-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .step {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            min-width: 200px;
+            flex: 1;
+            max-width: 250px;
+            margin: 1rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .step:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.2);
+        }
+
+        .step::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--step-color, #4CAF50);
+            border-radius: 15px 15px 0 0;
+        }
+
+        .step-1 { --step-color: #4CAF50; }
+        .step-2 { --step-color: #2196F3; }
+        .step-3 { --step-color: #FF9800; }
+        .step-4 { --step-color: #9C27B0; }
+        .step-5 { --step-color: #F44336; }
+
+        .step-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            color: var(--step-color);
+        }
+
+        .step-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #333;
+            text-align: center;
+        }
+
+        .step-description {
+            font-size: 0.9rem;
+            color: #666;
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        .step-number {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: var(--step-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .details-panel {
+            margin-top: 3rem;
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            display: none;
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .details-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .details-icon {
+            font-size: 3rem;
+            margin-right: 1rem;
+            color: var(--active-color, #4CAF50);
+        }
+
+        .details-title {
+            font-size: 2rem;
+            color: #333;
+        }
+
+        .details-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .detail-section {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid var(--active-color, #4CAF50);
+        }
+
+        .detail-section h4 {
+            margin-bottom: 1rem;
+            color: #333;
+            font-size: 1.1rem;
+        }
+
+        .detail-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .detail-section li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .detail-section li::before {
+            content: '▶';
+            position: absolute;
+            left: 0;
+            color: var(--active-color, #4CAF50);
+        }
+
+        .model-tag {
+            background: var(--active-color, #4CAF50);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: inline-block;
+            margin: 0.2rem;
+        }
+
+        .progress-bar {
+            background: #e0e0e0;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--active-color, #4CAF50), rgba(76, 175, 80, 0.7));
+            border-radius: 4px;
+            transition: width 1s ease;
+            width: 0;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #ff4757;
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @media (max-width: 768px) {
+            .steps-container {
+                flex-direction: column;
+            }
+            
+            .step {
+                max-width: 100%;
+                margin: 0.5rem 0;
+            }
+            
+            .details-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .flow-line {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏥 Medical Search System</h1>
+            <p>Journey from Query to Clinical Insights</p>
+        </div>
+
+        <div class="journey-container">
+            <div class="flow-line"></div>
+            
+            <div class="steps-container">
+                <div class="step step-1" onclick="showDetails(1)">
+                    <div class="step-number">1</div>
+                    <div class="step-icon">📝</div>
+                    <div class="step-title">Query Processing</div>
+                    <div class="step-description">Extract medical terms using LLM analysis</div>
+                </div>
+
+                <div class="step step-2" onclick="showDetails(2)">
+                    <div class="step-number">2</div>
+                    <div class="step-icon">🔍</div>
+                    <div class="step-title">Multi-Source Search</div>
+                    <div class="step-description">Search PubMed, Clinical Trials, CDC databases</div>
+                </div>
+
+                <div class="step step-3" onclick="showDetails(3)">
+                    <div class="step-number">3</div>
+                    <div class="step-icon">🧮</div>
+                    <div class="step-title">Embedding Analysis</div>
+                    <div class="step-description">Generate embeddings and calculate similarity</div>
+                </div>
+
+                <div class="step step-4" onclick="showDetails(4)">
+                    <div class="step-number">4</div>
+                    <div class="step-icon">🧠</div>
+                    <div class="step-title">Clinical Analysis</div>
+                    <div class="step-description">LLM generates comprehensive medical insights</div>
+                </div>
+
+                <div class="step step-5" onclick="showDetails(5)">
+                    <div class="step-number">5</div>
+                    <div class="step-icon">📊</div>
+                    <div class="step-title">Report Generation</div>
+                    <div class="step-description">Create elegant HTML medical report</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="details-panel" id="detailsPanel">
+            <button class="close-btn" onclick="hideDetails()">×</button>
+            <div class="details-header">
+                <div class="details-icon" id="detailsIcon">📝</div>
+                <div class="details-title" id="detailsTitle">Query Processing</div>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            
+            <div class="details-content" id="detailsContent">
+                <!-- Content will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const stepDetails = {
+            1: {
+                icon: '📝',
+                title: 'Query Processing & Term Extraction',
+                color: '#4CAF50',
+                content: {
+                    'Method Used': {
+                        items: [
+                            'Meta-Llama-3.1-70B-Instruct LLM',
+                            'Natural Language Processing',
+                            'Medical terminology extraction',
+                            'Keyword optimization for search'
+                        ]
+                    },
+                    'Technical Details': {
+                        items: [
+                            'Temperature: 0.3 (focused responses)',
+                            'Max tokens: 50 (concise extraction)',
+                            'Fallback: Regex pattern matching',
+                            'Medical term validation'
+                        ]
+                    }
+                }
+            },
+            2: {
+                icon: '🔍',
+                title: 'Multi-Source Medical Search',
+                color: '#2196F3',
+                content: {
+                    'Data Sources': {
+                        items: [
+                            'PubMed (research articles & abstracts)',
+                            'ClinicalTrials.gov (ongoing studies)',
+                            'CDC Health Topics (guidelines)',
+                            'Web scraping with BeautifulSoup'
+                        ]
+                    },
+                    'Search Strategy': {
+                        items: [
+                            'Parallel search execution',
+                            'Rate limiting & error handling',
+                            'Content extraction & filtering',
+                            'URL validation & following'
+                        ]
+                    }
+                }
+            },
+            3: {
+                icon: '🧮',
+                title: 'Semantic Embedding & Ranking',
+                color: '#FF9800',
+                content: {
+                    'Embedding Model': {
+                        items: [
+                            'BAAI/bge-en-icl (specialized embeddings)',
+                            'Cosine similarity calculation',
+                            'Vector space representation',
+                            'Relevance scoring algorithm'
+                        ]
+                    },
+                    'Processing Pipeline': {
+                        items: [
+                            'Text preprocessing & cleaning',
+                            'Batch embedding generation',
+                            'Similarity matrix computation',
+                            'Results ranking & filtering'
+                        ]
+                    }
+                }
+            },
+            4: {
+                icon: '🧠',
+                title: 'Clinical Analysis Generation',
+                color: '#9C27B0',
+                content: {
+                    'LLM Analysis': {
+                        items: [
+                            'Meta-Llama-3.1-70B-Instruct',
+                            'Medical knowledge synthesis',
+                            'Evidence-based recommendations',
+                            'Structured clinical output'
+                        ]
+                    },
+                    'Analysis Components': {
+                        items: [
+                            'Potential causes identification',
+                            'Diagnostic approaches',
+                            'Treatment protocols',
+                            'Similar case profiles'
+                        ]
+                    }
+                }
+            },
+            5: {
+                icon: '📊',
+                title: 'Professional Report Generation',
+                color: '#F44336',
+                content: {
+                    'Report Features': {
+                        items: [
+                            'Elegant HTML with CSS styling',
+                            'Interactive elements & animations',
+                            'Mobile-responsive design',
+                            'Professional medical formatting'
+                        ]
+                    },
+                    'Content Organization': {
+                        items: [
+                            'Executive summary section',
+                            'Detailed findings cards',
+                            'Source attribution & links',
+                            'Visual statistics & metrics'
+                        ]
+                    }
+                }
+            }
+        };
+
+        function showDetails(stepNumber) {
+            const details = stepDetails[stepNumber];
+            const panel = document.getElementById('detailsPanel');
+            const icon = document.getElementById('detailsIcon');
+            const title = document.getElementById('detailsTitle');
+            const content = document.getElementById('detailsContent');
+            const progressFill = document.getElementById('progressFill');
+            
+            // Update colors
+            document.documentElement.style.setProperty('--active-color', details.color);
+            
+            // Update content
+            icon.textContent = details.icon;
+            title.textContent = details.title;
+            
+            // Build content sections
+            let contentHTML = '';
+            for (const [sectionTitle, sectionData] of Object.entries(details.content)) {
+                contentHTML += `
+                    <div class="detail-section">
+                        <h4>${sectionTitle}</h4>
+                        <ul>
+                            ${sectionData.items.map(item => `<li>${item}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+            content.innerHTML = contentHTML;
+            
+            // Show panel with animation
+            panel.style.display = 'block';
+            setTimeout(() => {
+                progressFill.style.width = (stepNumber * 20) + '%';
+            }, 100);
+            
+            // Scroll to panel
+            panel.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function hideDetails() {
+            document.getElementById('detailsPanel').style.display = 'none';
+        }
+
+        // Add hover effects and animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const steps = document.querySelectorAll('.step');
+            
+            steps.forEach((step, index) => {
+                step.style.animationDelay = (index * 0.2) + 's';
+                step.style.animation = 'slideUp 0.6s ease forwards';
+            });
+        });
+    </script>
+</body>
+</html>

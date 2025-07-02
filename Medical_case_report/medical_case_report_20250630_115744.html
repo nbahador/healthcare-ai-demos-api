@@ -1,0 +1,178 @@
+
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Medical Case Knowledge Graph Report</title>
+            <style>
+                body {
+                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                    margin: 0;
+                    padding: 20px;
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    min-height: 100vh;
+                }
+                .container {
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    background: rgba(255, 255, 255, 0.95);
+                    border-radius: 20px;
+                    padding: 30px;
+                    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+                }
+                h1 {
+                    text-align: center;
+                    color: #2c3e50;
+                    margin-bottom: 30px;
+                    font-size: 2.5em;
+                    font-weight: 300;
+                }
+                .section {
+                    margin-bottom: 30px;
+                    padding: 20px;
+                    border-radius: 12px;
+                    background: #f8f9fa;
+                    border-left: 4px solid #3498db;
+                }
+                .section h2 {
+                    color: #2c3e50;
+                    margin-top: 0;
+                    font-size: 1.5em;
+                }
+                .timeline {
+                    position: relative;
+                    height: 200px;
+                    margin: 20px 0;
+                }
+                .timeline-line {
+                    position: absolute;
+                    top: 50%;
+                    width: 100%;
+                    height: 2px;
+                    background: #bdc3c7;
+                }
+                .timeline-event {
+                    position: absolute;
+                    background: #3498db;
+                    color: white;
+                    padding: 8px 12px;
+                    border-radius: 6px;
+                    font-size: 12px;
+                    white-space: nowrap;
+                    transform: translateY(-50%);
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+                }
+                .entity-list {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 15px;
+                    margin-top: 15px;
+                }
+                .entity-card {
+                    background: white;
+                    padding: 15px;
+                    border-radius: 8px;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                }
+                .entity-card h4 {
+                    margin: 0 0 10px 0;
+                    color: #2c3e50;
+                }
+                .entity-type {
+                    font-size: 12px;
+                    color: #7f8c8d;
+                    margin-bottom: 10px;
+                }
+                .attribute {
+                    font-size: 14px;
+                    margin: 5px 0;
+                    color: #555;
+                }
+                .analysis-section {
+                    margin-bottom: 20px;
+                }
+                .analysis-section h3 {
+                    color: #2c3e50;
+                    border-bottom: 1px solid #eee;
+                    padding-bottom: 5px;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h1>Medical Case Knowledge Graph Report</h1>
+                
+                <div class="section">
+                    <h2>⏰ Timeline Extraction</h2>
+                    <div class="timeline-container">
+                        
+            <div class="timeline">
+                <div class="timeline-line"></div>
+            
+                <div class="timeline-event" style="left: 5%; top: 50%; background: #e74c3c;">
+                    admission
+                </div>
+                
+                <div class="timeline-event" style="left: 25%; top: 50%; background: #f39c12;">
+                    first dose of medication
+                </div>
+                
+                <div class="timeline-event" style="left: 45%; top: 50%; background: #9b59b6;">
+                    follow-up appointment
+                </div>
+                </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2>🏥 Extracted Entities</h2>
+                    <div class="entity-list">
+                        
+                <div class="entity-card" style="border-left-color: #e74c3c">
+                    <h4>Patient</h4>
+                    <div class="entity-type">Patient Info</div>
+                <div class="attribute">• age: 34</div><div class="attribute">• gender: male</div><div class="attribute">• medical_history: hypertension, hyperlipidemia</div><div class="attribute">• bmi: 28</div></div>
+                <div class="entity-card" style="border-left-color: #f39c12">
+                    <h4>Symptoms</h4>
+                    <div class="entity-type">Symptoms</div>
+                <div class="attribute">• {'name': 'shortness of breath', 'duration': '2 days'}</div><div class="attribute">• {'name': 'chest pain', 'duration': '1 day'}</div></div>
+                <div class="entity-card" style="border-left-color: #3498db">
+                    <h4>Tests</h4>
+                    <div class="entity-type">Tests</div>
+                <div class="attribute">• {'name': 'complete blood count', 'result': 'normal'}</div><div class="attribute">• {'name': 'electrocardiogram', 'result': 'ST segment elevation'}</div></div>
+                <div class="entity-card" style="border-left-color: #9b59b6">
+                    <h4>Treatments</h4>
+                    <div class="entity-type">Treatments</div>
+                <div class="attribute">• {'name': 'aspirin', 'dosage': '81mg'}</div><div class="attribute">• {'name': 'metoprolol', 'dosage': '50mg'}</div></div>
+                <div class="entity-card" style="border-left-color: #27ae60">
+                    <h4>Outcome</h4>
+                    <div class="entity-type">Outcome</div>
+                </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2>🔍 Case Analysis</h2>
+                    
+                <div class="analysis-section">
+                    <h3>Malpractice Issues</h3>
+                    <div class="analysis-content">
+                <p><strong>concerns:</strong> ['Delay in administering metoprolol: According to the timeline, the patient was admitted at 08:00 and the first dose of medication (aspirin) was given at 10:00. However, metoprolol, a beta-blocker commonly used in acute myocardial infarction, was not mentioned as being administered until the follow-up appointment on January 3rd. This delay may be considered suboptimal care.']</p><p><strong>no clear evidence of negligence:</strong> However, without further information on the patient's specific condition, the decision-making process of the healthcare providers, and the standard of care in this particular institution, it is difficult to conclusively determine if malpractice occurred.</p></div></div>
+                <div class="analysis-section">
+                    <h3>Diagnostic Accuracy</h3>
+                    <div class="analysis-content">
+                <p><strong>strengths:</strong> ['The electrocardiogram result showing ST segment elevation is a strong indicator of acute myocardial infarction, which supports the diagnosis.']</p><p><strong>weaknesses:</strong> ['The complete blood count result was normal, but it is not a specific test for diagnosing acute myocardial infarction. Other diagnostic tests such as troponin levels or echocardiogram may have provided more accurate information.']</p><p><strong>overall:</strong> The diagnosis of acute myocardial infarction appears to be supported by the electrocardiogram result, but the use of additional diagnostic tests may have provided a more comprehensive understanding of the patient's condition.</p></div></div>
+                <div class="analysis-section">
+                    <h3>Treatment Appropriateness</h3>
+                    <div class="analysis-content">
+                <p><strong>strengths:</strong> ['Aspirin was administered promptly, which is consistent with guidelines for acute myocardial infarction treatment.']</p><p><strong>weaknesses:</strong> ["The delay in administering metoprolol, as mentioned earlier, may have impacted the patient's treatment outcome."]</p><p><strong>overall:</strong> The treatment plan appears to be mostly appropriate, but the delay in administering metoprolol may be a concern.</p></div></div>
+                <div class="analysis-section">
+                    <h3>Timeline Concerns</h3>
+                    <div class="analysis-content">
+                <p><strong>concerns:</strong> ["The follow-up appointment on January 3rd was approximately 48 hours after admission. This timeframe may be considered lengthy, and more frequent monitoring or follow-up may have been beneficial for the patient's condition."]</p><p><strong>no clear evidence of timeline issues:</strong> However, without further information on the patient's specific condition and the healthcare institution's protocols, it is difficult to conclusively determine if the timeline was suboptimal.</p></div></div>
+                </div>
+            </div>
+        </body>
+        </html>
+        

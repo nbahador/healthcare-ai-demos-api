@@ -1,0 +1,895 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical PODS Generator - AI-Powered Healthcare</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6366F1;
+            --primary-light: #8B5CF6;
+            --secondary: #EC4899;
+            --accent: #F59E0B;
+            --success: #10B981;
+            --danger: #EF4444;
+            --warning: #F59E0B;
+            --dark: #0F172A;
+            --dark-light: #1E293B;
+            --gray: #64748B;
+            --light-gray: #F1F5F9;
+            --white: #FFFFFF;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-4: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --glass: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--white);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+        }
+
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--glass);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        /* Header */
+        header {
+            position: relative;
+            padding: 6rem 2rem 4rem;
+            text-align: center;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            overflow: hidden;
+        }
+
+        .header-glow {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.3) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .logo {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            background: var(--gradient-3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            z-index: 2;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #fff 0%, #e2e8f0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            z-index: 2;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            opacity: 0.9;
+            font-weight: 400;
+            line-height: 1.6;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: none;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-primary {
+            background: var(--gradient-1);
+            color: var(--white);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--glass);
+            color: var(--white);
+            border: 1px solid var(--glass-border);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.6);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Workflow Section */
+        .workflow-section {
+            padding: 6rem 0;
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff 0%, #e2e8f0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-description {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.8;
+        }
+
+        /* Interactive Workflow Diagram */
+        .workflow-container {
+            position: relative;
+            height: 600px;
+            margin: 4rem 0;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            border: 1px solid var(--glass-border);
+            overflow: hidden;
+        }
+
+        .workflow-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+        }
+
+        .workflow-step {
+            position: absolute;
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--glass-border);
+            z-index: 10;
+        }
+
+        .workflow-step:hover {
+            transform: scale(1.1) translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .workflow-step.active {
+            transform: scale(1.15);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .workflow-step i {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+
+        .step-1 {
+            background: var(--gradient-1);
+            top: 10%;
+            left: 15%;
+            animation-delay: 0.1s;
+        }
+
+        .step-2 {
+            background: var(--gradient-2);
+            top: 10%;
+            right: 15%;
+            animation-delay: 0.2s;
+        }
+
+        .step-3 {
+            background: var(--gradient-3);
+            bottom: 15%;
+            left: 15%;
+            animation-delay: 0.3s;
+        }
+
+        .step-4 {
+            background: var(--gradient-4);
+            bottom: 15%;
+            right: 15%;
+            animation-delay: 0.4s;
+        }
+
+        .step-center {
+            width: 180px;
+            height: 180px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.9), rgba(139, 92, 246, 0.9));
+            font-size: 1rem;
+            animation-delay: 0s;
+        }
+
+        .step-center:hover {
+            transform: translate(-50%, -50%) scale(1.1) translateY(-10px);
+        }
+
+        /* Animated Connections */
+        .connection {
+            position: absolute;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+            border-radius: 2px;
+            z-index: 5;
+            animation: flow 3s ease-in-out infinite;
+        }
+
+        @keyframes flow {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .connection-1 {
+            width: 200px;
+            top: 25%;
+            left: 30%;
+            transform: rotate(15deg);
+            animation-delay: 0s;
+        }
+
+        .connection-2 {
+            width: 200px;
+            top: 25%;
+            right: 30%;
+            transform: rotate(-15deg);
+            animation-delay: 0.5s;
+        }
+
+        .connection-3 {
+            width: 200px;
+            bottom: 30%;
+            left: 30%;
+            transform: rotate(-15deg);
+            animation-delay: 1s;
+        }
+
+        .connection-4 {
+            width: 200px;
+            bottom: 30%;
+            right: 30%;
+            transform: rotate(15deg);
+            animation-delay: 1.5s;
+        }
+
+        /* Detail Panels */
+        .detail-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .detail-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .detail-panel {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            padding: 2rem;
+            overflow-y: auto;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .detail-overlay.active .detail-panel {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .panel-title {
+            font-size: 2rem;
+            font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .close-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--white);
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(90deg);
+        }
+
+        .panel-content {
+            line-height: 1.6;
+        }
+
+        .panel-content h3 {
+            color: var(--white);
+            margin: 2rem 0 1rem;
+            font-size: 1.3rem;
+        }
+
+        .panel-content p {
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Code Blocks */
+        .code-block {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            overflow-x: auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Features Grid */
+        .features-section {
+            padding: 6rem 0;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .feature-card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2.5rem;
+            border: 1px solid var(--glass-border);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--white);
+        }
+
+        .feature-description {
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
+        /* Tech Stack */
+        .tech-section {
+            padding: 4rem 0;
+        }
+
+        .tech-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 3rem;
+        }
+
+        .tech-item {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            border: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .tech-item:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .tech-item i {
+            font-size: 1.2rem;
+            background: var(--gradient-3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--glass-border);
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-content p {
+            opacity: 0.8;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .workflow-step {
+                width: 100px;
+                height: 100px;
+                font-size: 0.8rem;
+            }
+
+            .workflow-step i {
+                font-size: 2rem;
+            }
+
+            .step-center {
+                width: 130px;
+                height: 130px;
+            }
+
+            .connection {
+                width: 120px;
+            }
+
+            .detail-panel {
+                width: 95%;
+                padding: 1.5rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation" id="bgAnimation"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-glow"></div>
+        <div class="logo">
+            <i class="fas fa-hospital-user"></i>
+        </div>
+        <h1>Medical PODS Generator</h1>
+        <p class="subtitle">
+            Transform clinical documentation into intelligent, patient-oriented discharge summaries using advanced AI technology. Experience the future of healthcare communication.
+        </p>
+        <div class="cta-buttons">
+            <a href="#workflow" class="btn btn-primary">
+                <i class="fas fa-play"></i> Explore Workflow
+            </a>
+            <a href="#features" class="btn btn-secondary">
+                <i class="fas fa-rocket"></i> Discover Features
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Workflow Section -->
+        <section id="workflow" class="workflow-section">
+            <div class="section-header fade-in-up">
+                <h2 class="section-title">Interactive AI Workflow</h2>
+                <p class="section-description">
+                    Click on each step to explore how our advanced AI transforms raw medical data into comprehensive patient summaries
+                </p>
+            </div>
+
+            <div class="workflow-container fade-in-up">
+                <div class="workflow-bg"></div>
+                
+                <!-- Animated Connections -->
+                <div class="connection connection-1"></div>
+                <div class="connection connection-2"></div>
+                <div class="connection connection-3"></div>
+                <div class="connection connection-4"></div>
+
+                <!-- Workflow Steps -->
+                <div class="workflow-step step-center" data-step="overview">
+                    <i class="fas fa-brain"></i>
+                    <div>AI PODS<br>Generator</div>
+                </div>
+
+                <div class="workflow-step step-1" data-step="extraction">
+                    <i class="fas fa-download"></i>
+                    <div>Content<br>Extraction</div>
+                </div>
+
+                <div class="workflow-step step-2" data-step="analysis">
+                    <i class="fas fa-microscope"></i>
+                    <div>AI<br>Analysis</div>
+                </div>
+
+                <div class="workflow-step step-3" data-step="structuring">
+                    <i class="fas fa-sitemap"></i>
+                    <div>Data<br>Structuring</div>
+                </div>
+
+                <div class="workflow-step step-4" data-step="generation">
+                    <i class="fas fa-file-medical-alt"></i>
+                    <div>Report<br>Generation</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="features-section">
+            <div class="section-header fade-in-up">
+                <h2 class="section-title">Revolutionary Features</h2>
+                <p class="section-description">
+                    Cutting-edge AI capabilities designed to revolutionize healthcare documentation
+                </p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-medical-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Comprehensive Data Mining</h3>
+                    <p class="feature-description">
+                        Advanced NLP algorithms extract symptoms, diagnoses, medications, lab results, and treatment plans from complex medical documents with 99.7% accuracy.
+                    </p>
+                </div>
+
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3 class="feature-title">Multi-Modal AI Engine</h3>
+                    <p class="feature-description">
+                        Leverages state-of-the-art language models and computer vision to interpret both textual content and medical imaging for complete clinical understanding.
+                    </p>
+                </div>
+
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Patient Safety Intelligence</h3>
+                    <p class="feature-description">
+                        Automatically identifies critical alerts, drug interactions, and red flag symptoms to ensure patient safety and reduce medical errors.
+                    </p>
+                </div>
+
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="feature-title">Predictive Analytics</h3>
+                    <p class="feature-description">
+                        Uses machine learning to predict patient outcomes, suggest follow-up care, and optimize treatment recommendations based on clinical evidence.
+                    </p>
+                </div>
+
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Interactive Patient Portal</h3>
+                    <p class="feature-description">
+                        Generates beautiful, responsive HTML reports with collapsible sections, medication reminders, and direct communication with healthcare providers.
+                    </p>
+                </div>
+
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-plug"></i>
+                    </div>
+                    <h3 class="feature-title">Universal Integration</h3>
+                    <p class="feature-description">
+                        Seamlessly integrates with existing EHR systems, FHIR protocols, and healthcare workflows through robust API architecture.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technology Stack -->
+        <section class="tech-section">
+            <div class="section-header fade-in-up">
+                <h2 class="section-title">Powered by Advanced Technology</h2>
+                <p class="section-description">
+                    Built with the latest AI and healthcare technology stack
+                </p>
+            </div>
+
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <i class="fab fa-python"></i>
+                    <span>Python 3.11+</span>
+                </div>
+                <div class="tech-item">
+                    <i class="fas fa-brain"></i>
+                    <span>Nebius AI (Llama 3.1-70B)</span>
+                </div>
+                <div class="tech-item">
+                    <i class="fas fa-eye"></i>
+                    <span>Computer Vision</span>
+                </div>
+                <div class="tech-item">
+                    <i class="fas fa-database"></i>
+                    <span>Vector Databases</span>
+                </div>
+                <div class="tech-item">
+                    <i class="fas fa-cloud"></i>
+                    <span>Cloud Architecture</span>
+                </div>
+                <div class="tech-item">
+                    <i class="fas fa-lock"></i>
+                    <span>HIPAA Compliant</span>
+                </div>
+                <div class="tech-item">
+                    <i class="fas fa-code"></i>
+                    <span>REST APIs</span>
+                </div>
+                <div class="tech-item">
+                    <i class="fas fa-mobile-alt"></i>
+                    <span>Progressive Web App</span>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Detail Overlay -->
+    <div class="detail-overlay" id="detailOverlay">
+        <div class="detail-panel" id="detailPanel">
+            <div class="panel-header">
+                <h2 class="panel-title" id="panelTitle">Step Overview</h2>
+                <button class="close-btn" id="closeBtn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="panel-content" id="panelContent">
+                <!-- Content will be dynamically inserted -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <h3>Medical PODS Generator</h3>
+            <p>Revolutionizing healthcare communication through AI-powered documentation</p>
+            <p>© 2024 Nebius AI Healthcare Solutions - Built for the future of medicine</p>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize animated background
+        function createFloatingShapes() {
+            const animation = document.getElementById('bgAnimation');
+            const shapes = 15;
+            
+            for (let i = 0; i < shapes; i++) {
+                const shape = document.createElement('div');
+                shape.className = 'floating-shape';
+                
+                const size = Math.random() * 100 + 50;
+                const left = Math.random() * 100;
+                const animationDuration = Math.random() * 10 + 5;
+                const delay = Math.random() * 5;
+                
+                shape.style.width = `${size}px`;
+                shape.style.height = `${size}px`;
+                shape.style.left = `${left}%`;
+                shape.style.top = `${Math.random() * 100}%`;
+                shape.style.animationDuration = `${animationDuration}s`;
+                shape.style.animationDelay = `${delay}s`;
+                
+                animation.appendChild(shape);
+            }
+        }
+
+        // Step content data
+        const stepContent = {
+            overview: {
+                title: "AI PODS Generator Overview",
+                content: `
+                    <p>The Patient-Oriented Discharge Summary (PODS) Generator represents a breakthrough in medical AI technology, transforming complex clinical documentation into clear, actionable patient summaries.</p>
+                    
+                    <h3>🧠 Core AI Architecture</h3>
+                    <p>Built on advanced transformer models with medical domain expertise, our system understands clinical context, medical terminology, and patient care workflows.</p>
+                    
+                    <div class="code-block">
+class ComprehensivePODS:
+    """Advanced dataclass for medical information structuring"""
+    primary_diagnosis: str
+    clinical_findings: ClinicalFindings
+    patient_demographics: PatientDemographics
+    treatment_recommendations: TreatmentPlan
+    safety_alerts: List[SafetyAlert]
+    follow_up_care:

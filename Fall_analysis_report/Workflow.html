@@ -1,0 +1,467 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fall Prevention Analysis Workflow</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #3a86ff;
+            --secondary: #3f37c9;
+            --accent: #4895ef;
+            --danger: #f72585;
+            --warning: #f77f00;
+            --success: #4cc9f0;
+            --dark: #212529;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --border: #dee2e6;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: var(--dark);
+            background-color: #f5f7fa;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--gray);
+            font-weight: 400;
+        }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-header {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            background-color: #f8f9fa;
+        }
+        
+        .card-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0;
+            color: var(--primary);
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        .workflow-chart {
+            width: 100%;
+            height: 350px;
+            margin: 1rem 0;
+        }
+        
+        .model-details {
+            background: var(--light);
+            padding: 1rem;
+            border-radius: 0.375rem;
+            margin-top: 1rem;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .model-details h4 {
+            font-size: 1.1rem;
+            margin-top: 0;
+            color: var(--secondary);
+        }
+        
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .tech-item {
+            background: var(--light);
+            padding: 0.375rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.8rem;
+            color: var(--primary);
+            border: 1px solid var(--border);
+        }
+        
+        .step-list {
+            counter-reset: step-counter;
+            padding-left: 0;
+        }
+        
+        .step-item {
+            position: relative;
+            padding-left: 2.5rem;
+            margin-bottom: 1.25rem;
+            list-style: none;
+        }
+        
+        .step-item:before {
+            counter-increment: step-counter;
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 1.75rem;
+            height: 1.75rem;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        
+        .step-item h3 {
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+            color: var(--secondary);
+        }
+        
+        pre {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: 0.375rem;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            border-left: 3px solid var(--primary);
+        }
+        
+        code {
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+            color: var(--danger);
+        }
+        
+        .highlight-box {
+            background-color: rgba(67, 97, 238, 0.05);
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 0.375rem 0.375rem 0;
+        }
+        
+        .footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Fall Prevention Analysis System Workflow</h1>
+            <p class="subtitle">Comprehensive documentation of the input-to-output journey and technical implementation</p>
+        </header>
+        
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Input Journey Visualization</h2>
+                </div>
+                <div class="card-body">
+                    <div class="workflow-chart">
+                        <canvas id="flowChart"></canvas>
+                    </div>
+                    <script>
+                        const ctx = document.getElementById('flowChart').getContext('2d');
+                        const chart = new Chart(ctx, {
+                            type: 'doughnut',
+                            data: {
+                                labels: ['1. Image Input', '2. Preprocessing', '3. API Analysis', '4. Local Fallback', '5. Risk Assessment', '6. Report Generation'],
+                                datasets: [{
+                                    data: [15, 10, 40, 15, 10, 10],
+                                    backgroundColor: [
+                                        '#FF6384', // Red
+                                        '#36A2EB', // Blue
+                                        '#FFCE56', // Yellow
+                                        '#4BC0C0', // Teal
+                                        '#9966FF', // Purple
+                                        '#FF9F40'  // Orange
+                                    ],
+                                    borderWidth: 0,
+                                    hoverOffset: 10
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: {
+                                        position: 'right',
+                                        labels: {
+                                            padding: 20,
+                                            usePointStyle: true,
+                                            pointStyle: 'circle',
+                                            font: {
+                                                weight: 'bold'
+                                            }
+                                        }
+                                    },
+                                    tooltip: {
+                                        callbacks: {
+                                            label: function(context) {
+                                                return `${context.label}: ${context.raw}% of workflow`;
+                                            }
+                                        }
+                                    },
+                                    datalabels: {
+                                        display: false
+                                    }
+                                },
+                                cutout: '65%',
+                                animation: {
+                                    animateScale: true,
+                                    animateRotate: true
+                                }
+                            }
+                        });
+                    </script>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2>Key Components</h2>
+                </div>
+                <div class="card-body">
+                    <h3>Models Used</h3>
+                    <div class="model-details">
+                        <h4>Primary Model: Qwen/Qwen2-VL-72B-Instruct</h4>
+                        <p><strong>Purpose:</strong> Multimodal analysis of images for fall risk factors</p>
+                        <p><strong>Capabilities:</strong></p>
+                        <ul>
+                            <li>Visual understanding of environmental hazards</li>
+                            <li>Text generation for risk assessment</li>
+                            <li>Contextual reasoning about safety measures</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="model-details" style="border-left-color: var(--danger); margin-top: 1.5rem;">
+                        <h4>Fallback Method: Local Image Analysis</h4>
+                        <p><strong>Purpose:</strong> Basic risk assessment when API is unavailable</p>
+                        <p><strong>Capabilities:</strong></p>
+                        <ul>
+                            <li>Brightness analysis for lighting conditions</li>
+                            <li>Simple risk scoring based on image characteristics</li>
+                        </ul>
+                    </div>
+                    
+                    <h3 style="margin-top: 1.5rem;">Technical Stack</h3>
+                    <div class="tech-stack">
+                        <span class="tech-item">Python 3</span>
+                        <span class="tech-item">OpenAI SDK</span>
+                        <span class="tech-item">Pillow (PIL)</span>
+                        <span class="tech-item">Jinja2</span>
+                        <span class="tech-item">HTML/CSS</span>
+                        <span class="tech-item">Chart.js</span>
+                        <span class="tech-item">Nebius AI Studio</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h2>Detailed Workflow Steps</h2>
+            </div>
+            <div class="card-body">
+                <ol class="step-list">
+                    <li class="step-item">
+                        <h3>Image Input & Validation</h3>
+                        <p>The system accepts image input through a local file path with comprehensive validation:</p>
+                        <ul>
+                            <li>File existence verification</li>
+                            <li>Size validation (max 10MB)</li>
+                            <li>Image format verification (JPEG/PNG)</li>
+                            <li>Content validation and preprocessing</li>
+                        </ul>
+                    </li>
+                    
+                    <li class="step-item">
+                        <h3>Image Preprocessing</h3>
+                        <p>Before analysis, the image undergoes preparation:</p>
+                        <ul>
+                            <li>Conversion to RGB format if needed</li>
+                            <li>Base64 encoding for API transmission</li>
+                            <li>Metadata extraction (dimensions, format, etc.)</li>
+                        </ul>
+                    </li>
+                    
+                    <li class="step-item">
+                        <h3>API Analysis (Primary Path)</h3>
+                        <p>The system attempts analysis using Nebius AI Studio:</p>
+                        <ul>
+                            <li>Image and detailed prompt sent to Qwen2-VL-72B-Instruct</li>
+                            <li>Model analyzes for specific risk factors:
+                                <ul>
+                                    <li>Slippery surfaces and obstacles</li>
+                                    <li>Lighting conditions</li>
+                                    <li>Structural support availability</li>
+                                    <li>Other environmental hazards</li>
+                                </ul>
+                            </li>
+                            <li>Response parsed for structured risk assessment</li>
+                        </ul>
+                    </li>
+                    
+                    <li class="step-item">
+                        <h3>Local Analysis (Fallback Path)</h3>
+                        <p>If API fails, basic local analysis is performed:</p>
+                        <ul>
+                            <li>Image converted to grayscale</li>
+                            <li>Brightness histogram analysis</li>
+                            <li>Basic risk score calculation</li>
+                            <li>Limited recommendations generated</li>
+                        </ul>
+                    </li>
+                    
+                    <li class="step-item">
+                        <h3>Risk Assessment & Scoring</h3>
+                        <p>The system calculates a comprehensive risk score:</p>
+                        <ul>
+                            <li><strong>High Risk (75):</strong> When "high risk" detected in response</li>
+                            <li><strong>Moderate Risk (50):</strong> Default or "moderate/medium" keywords</li>
+                            <li><strong>Minimal Risk (25):</strong> When "minimal risk" detected</li>
+                        </ul>
+                        <div class="highlight-box">
+                            <p>The scoring algorithm automatically extracts risk levels from the model's natural language response and converts them to numerical values.</p>
+                        </div>
+                    </li>
+                    
+                    <li class="step-item">
+                        <h3>Report Generation</h3>
+                        <p>The system produces two report formats:</p>
+                        <ul>
+                            <li><strong>HTML Report:</strong> Visual, interactive report with:
+                                <ul>
+                                    <li>Risk score visualization</li>
+                                    <li>Detailed findings by category</li>
+                                    <li>Specific recommendations</li>
+                                </ul>
+                            </li>
+                            <li><strong>JSON Report:</strong> Complete technical record including:
+                                <ul>
+                                    <li>System information</li>
+                                    <li>API call details</li>
+                                    <li>Raw analysis results</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h2>Implementation Highlights</h2>
+            </div>
+            <div class="card-body">
+                <h3>Error Handling Architecture</h3>
+                <p>Robust error management throughout the pipeline:</p>
+                <ul>
+                    <li>Multi-stage image validation with detailed error messages</li>
+                    <li>Graceful API failure fallback to local analysis</li>
+                    <li>Comprehensive error logging in JSON reports</li>
+                    <li>User-friendly error presentation in HTML output</li>
+                </ul>
+                
+                <h3>Example API Prompt</h3>
+                <pre><code>Analyze this image for fall risk factors. Consider:
+- Slippery surfaces (wet floors, spills)
+- Uneven flooring or obstacles
+- Poor lighting conditions
+- Lack of handrails or support
+- Other potential hazards
+
+Provide a detailed risk assessment with specific recommendations.
+Rate the overall fall risk as high, moderate, or minimal.</code></pre>
+                <p>The prompt is carefully engineered to elicit structured responses that can be automatically parsed while allowing for natural language flexibility.</p>
+                
+                <h3>Report Design Features</h3>
+                <p>The HTML report includes sophisticated elements:</p>
+                <ul>
+                    <li>Fully responsive design with mobile optimization</li>
+                    <li>Interactive visual risk indicators</li>
+                    <li>Dark/light mode support</li>
+                    <li>Accessibility-compliant color scheme</li>
+                    <li>Print-friendly formatting</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Fall Prevention Analysis System • Document generated on <span id="current-date"></span></p>
+            <script>
+                document.getElementById('current-date').textContent = new Date().toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            </script>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,571 @@
+
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Medical Search Report | Female, age 60, with weight lo...</title>
+            <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+            <style>
+                :root {
+                    --primary: #2c3e50;
+                    --secondary: #34495e;
+                    --accent: #1abc9c;
+                    --light: #f8f9fa;
+                    --dark: #2c3e50;
+                    --text: #333333;
+                    --light-text: #7f8c8d;
+                }
+                
+                * {
+                    margin: 0;
+                    padding: 0;
+                    box-sizing: border-box;
+                }
+                
+                body {
+                    font-family: 'Roboto', sans-serif;
+                    line-height: 1.6;
+                    color: var(--text);
+                    background-color: #ffffff;
+                    padding: 0;
+                    margin: 0;
+                }
+                
+                .container {
+                    max-width: 1200px;
+                    margin: 0 auto;
+                    padding: 2rem;
+                }
+                
+                header {
+                    background: linear-gradient(135deg, var(--primary), var(--secondary));
+                    color: white;
+                    padding: 4rem 2rem;
+                    text-align: center;
+                    margin-bottom: 3rem;
+                    position: relative;
+                    overflow: hidden;
+                }
+                
+                header:after {
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    height: 4px;
+                    background: var(--accent);
+                }
+                
+                h1, h2, h3 {
+                    font-family: 'Merriweather', serif;
+                    font-weight: 700;
+                    color: var(--dark);
+                }
+                
+                h1 {
+                    font-size: 2.5rem;
+                    margin-bottom: 1rem;
+                }
+                
+                h2 {
+                    font-size: 1.8rem;
+                    margin: 2.5rem 0 1.5rem;
+                    position: relative;
+                    padding-bottom: 0.5rem;
+                }
+                
+                h2:after {
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    width: 50px;
+                    height: 3px;
+                    background: var(--accent);
+                }
+                
+                h3 {
+                    font-size: 1.3rem;
+                    margin: 1.2rem 0;
+                }
+                
+                .query-section {
+                    background: white;
+                    padding: 2rem;
+                    border-radius: 8px;
+                    box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+                    margin-bottom: 2.5rem;
+                }
+                
+                .query-text {
+                    font-size: 1.1rem;
+                    font-weight: 500;
+                    color: var(--dark);
+                    padding: 1.2rem;
+                    background: var(--light);
+                    border-left: 4px solid var(--accent);
+                    border-radius: 0 4px 4px 0;
+                }
+                
+                .stats {
+                    display: flex;
+                    gap: 1.2rem;
+                    margin: 1.5rem 0;
+                }
+                
+                .stat-box {
+                    flex: 1;
+                    background: white;
+                    padding: 1.5rem;
+                    border-radius: 6px;
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+                    text-align: center;
+                    border-top: 3px solid var(--accent);
+                }
+                
+                .stat-value {
+                    font-size: 1.8rem;
+                    font-weight: 700;
+                    color: var(--primary);
+                    margin-bottom: 0.3rem;
+                }
+                
+                .stat-label {
+                    font-size: 0.85rem;
+                    color: var(--light-text);
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                }
+                
+                .analysis-section {
+                    margin-bottom: 2.5rem;
+                }
+                
+                .analysis-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                    gap: 1.5rem;
+                    margin-top: 1.5rem;
+                }
+                
+                .analysis-card {
+                    background: white;
+                    border-radius: 8px;
+                    box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+                    overflow: hidden;
+                    transition: transform 0.3s ease, box-shadow 0.3s ease;
+                }
+                
+                .analysis-card:hover {
+                    transform: translateY(-3px);
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+                }
+                
+                .analysis-card-header {
+                    padding: 1.2rem 1.5rem;
+                    background: var(--light);
+                    border-bottom: 1px solid rgba(0,0,0,0.05);
+                    display: flex;
+                    align-items: center;
+                    gap: 0.8rem;
+                }
+                
+                .analysis-card-icon {
+                    font-size: 1.3rem;
+                    color: var(--accent);
+                }
+                
+                .analysis-card-content {
+                    padding: 1.5rem;
+                }
+                
+                .analysis-card-content ul {
+                    list-style-type: none;
+                }
+                
+                .analysis-card-content li {
+                    margin-bottom: 0.6rem;
+                    padding-left: 1.2rem;
+                    position: relative;
+                    color: var(--text);
+                }
+                
+                .analysis-card-content li:before {
+                    content: '•';
+                    position: absolute;
+                    left: 0;
+                    color: var(--accent);
+                    font-weight: bold;
+                }
+                
+                .results-section {
+                    margin-bottom: 3rem;
+                }
+                
+                .result-card {
+                    background: white;
+                    border-radius: 8px;
+                    box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+                    margin-bottom: 1.5rem;
+                    overflow: hidden;
+                    transition: transform 0.3s ease, box-shadow 0.3s ease;
+                }
+                
+                .result-card:hover {
+                    transform: translateY(-3px);
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+                }
+                
+                .result-header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 1.2rem 1.5rem;
+                    background: var(--light);
+                    border-bottom: 1px solid rgba(0,0,0,0.05);
+                }
+                
+                .result-source {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.6rem;
+                    font-weight: 500;
+                    color: var(--light-text);
+                    font-size: 0.9rem;
+                }
+                
+                .result-score {
+                    background: var(--accent);
+                    color: white;
+                    padding: 0.3rem 0.8rem;
+                    border-radius: 20px;
+                    font-weight: 600;
+                    font-size: 0.85rem;
+                }
+                
+                .result-body {
+                    padding: 1.5rem;
+                }
+                
+                .result-title {
+                    font-size: 1.2rem;
+                    margin-bottom: 1rem;
+                    color: var(--dark);
+                }
+                
+                .result-content {
+                    margin-bottom: 1.5rem;
+                    color: var(--text);
+                    line-height: 1.6;
+                }
+                
+                .result-link {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    padding: 0.6rem 1.2rem;
+                    background: var(--accent);
+                    color: white;
+                    text-decoration: none;
+                    border-radius: 4px;
+                    font-weight: 500;
+                    font-size: 0.9rem;
+                    transition: background 0.3s ease;
+                }
+                
+                .result-link:hover {
+                    background: var(--primary);
+                }
+                
+                footer {
+                    text-align: center;
+                    padding: 2rem;
+                    color: var(--light-text);
+                    font-size: 0.85rem;
+                    border-top: 1px solid rgba(0,0,0,0.08);
+                }
+                
+                @media (max-width: 768px) {
+                    .container {
+                        padding: 1.2rem;
+                    }
+                    
+                    h1 {
+                        font-size: 2rem;
+                    }
+                    
+                    h2 {
+                        font-size: 1.5rem;
+                    }
+                    
+                    .stats {
+                        flex-direction: column;
+                    }
+                    
+                    .analysis-grid {
+                        grid-template-columns: 1fr;
+                    }
+                }
+                
+                /* Animation effects */
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: translateY(15px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+                
+                .query-section, .analysis-card, .result-card {
+                    animation: fadeIn 0.5s ease-out forwards;
+                }
+                
+                .analysis-card:nth-child(1) { animation-delay: 0.1s; }
+                .analysis-card:nth-child(2) { animation-delay: 0.2s; }
+                .analysis-card:nth-child(3) { animation-delay: 0.3s; }
+                .analysis-card:nth-child(4) { animation-delay: 0.4s; }
+                .analysis-card:nth-child(5) { animation-delay: 0.5s; }
+                
+                .result-card:nth-child(1) { animation-delay: 0.1s; }
+                .result-card:nth-child(2) { animation-delay: 0.2s; }
+                .result-card:nth-child(3) { animation-delay: 0.3s; }
+                .result-card:nth-child(4) { animation-delay: 0.4s; }
+                .result-card:nth-child(5) { animation-delay: 0.5s; }
+            </style>
+        </head>
+        <body>
+            <header>
+                <div class="container">
+                    <h1>Medical Insights Report</h1>
+                    <p>Comprehensive clinical analysis based on latest research</p>
+                </div>
+            </header>
+            
+            <main class="container">
+                <section class="query-section">
+                    <h2>Patient Query</h2>
+                    <div class="query-text">Female, age 60, with weight loss, night sweats, and swollen lymph nodes</div>
+                    
+                    <div class="stats">
+                        <div class="stat-box">
+                            <div class="stat-value">5</div>
+                            <div class="stat-label">Relevant Findings</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value">0.67</div>
+                            <div class="stat-label">Average Relevance</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value">July</div>
+                            <div class="stat-label">Report Date</div>
+                        </div>
+                    </div>
+                </section>
+                
+                <section class="analysis-section">
+                    <h2>Clinical Analysis</h2>
+                    <div class="analysis-grid">
+                        
+            <div class="analysis-card">
+                <div class="analysis-card-header">
+                    <span class="analysis-card-icon">🩺</span>
+                    <h3>Potential Causes</h3>
+                </div>
+                <div class="analysis-card-content">
+                    <ul><li>Based on the patient's symptoms of weight loss, night sweats, and swollen lymph nodes, potential causes include:</li><li>* Infections (e.g., tuberculosis, HIV)</li><li>* Malignancies (e.g., lymphoma)</li><li>* Sleeping disorders (e.g., obstructive sleep apnea)</li><li>* Medication-related causes (e.g., antihypertensives, antipyretics)</li><li>* Hormonal imbalances (e.g., hyperthyroidism, hypoglycemia)</li><li>* Menopause or perimenopause</li><li>* Gastroesophageal reflux disease (GERD)</li><li>* Mood disorders</li></ul>
+                </div>
+            </div>
+            
+            <div class="analysis-card">
+                <div class="analysis-card-header">
+                    <span class="analysis-card-icon">🔍</span>
+                    <h3>Diagnostic Approaches</h3>
+                </div>
+                <div class="analysis-card-content">
+                    <ul><li>Common diagnostic approaches for night sweats and related symptoms include:</li><li>* Complete blood count (CBC)</li><li>* Purified protein derivative (PPD) test for tuberculosis</li><li>* Human immunodeficiency virus (HIV) test</li><li>* Thyroid-stimulating hormone (TSH) levels</li><li>* Chest radiography</li><li>* PET-CT scan</li><li>* Bone marrow examination</li><li>* Medication review</li><li>* Screening for sleeping disorders and GERD</li></ul>
+                </div>
+            </div>
+            
+            <div class="analysis-card">
+                <div class="analysis-card-header">
+                    <span class="analysis-card-icon">💊</span>
+                    <h3>Treatment Options</h3>
+                </div>
+                <div class="analysis-card-content">
+                    <ul><li>Treatment options for night sweats and related symptoms depend on the underlying cause. Common medications and therapies include:</li><li>* Hormone therapy for menopausal symptoms</li><li>* Antibiotics or antivirals for infections</li><li>* Chemotherapy or radiation therapy for malignancies</li><li>* Medications for sleeping disorders or GERD</li><li>* Lifestyle changes, such as:</li><li>+ Weight loss and exercise for obesity-related symptoms</li><li>+ Stress management and relaxation techniques for mood disorders</li><li>+ Avoiding triggers for GERD</li></ul>
+                </div>
+            </div>
+            
+            <div class="analysis-card">
+                <div class="analysis-card-header">
+                    <span class="analysis-card-icon">👥</span>
+                    <h3>Similar Cases</h3>
+                </div>
+                <div class="analysis-card-content">
+                    <ul><li>Typical patient profiles and common symptom patterns for night sweats and related symptoms include:</li><li>* Middle-aged to older adults with a history of cancer or HIV</li><li>* Women in perimenopause or menopause with vasomotor symptoms</li><li>* Patients with a history of tuberculosis or other chronic infections</li><li>* Individuals with a history of substance abuse or medication-related night sweats</li></ul>
+                </div>
+            </div>
+            
+            <div class="analysis-card">
+                <div class="analysis-card-header">
+                    <span class="analysis-card-icon">⚠️</span>
+                    <h3>Clinical Recommendations</h3>
+                </div>
+                <div class="analysis-card-content">
+                    <ul><li>When to seek immediate care:</li><li>* Sudden onset of severe night sweats</li><li>* Fever or chills accompanying night sweats</li><li>* Swollen lymph nodes or other signs of infection</li><li>* Unexplained weight loss or other systemic symptoms</li><li>Specialist referrals:</li><li>* Oncologist for suspected malignancies</li><li>* Infectious disease specialist for suspected infections</li><li>* Endocrinologist for hormonal imbalances</li><li>* Sleep specialist for sleeping disorders</li><li>* Gastroenterologist for GERD</li><li>Note: This response is based on the provided search results and is intended to provide a general analysis of the patient's symptoms. A thorough medical evaluation and diagnosis by a qualified healthcare professional are necessary to determine the underlying cause and develop an effective treatment plan.</li></ul>
+                </div>
+            </div>
+            
+                    </div>
+                </section>
+                
+                <section class="results-section">
+                    <h2>Research Findings</h2>
+                    
+                    <article class="result-card">
+                        <div class="result-header">
+                            <div class="result-source">
+                                🔬 PubMed
+                            </div>
+                            <div class="result-score">Relevance: 0.75</div>
+                        </div>
+                        <div class="result-body">
+                            <h3 class="result-title">[Night sweats].</h3>
+                            <div class="result-content">
+                                ...
+                            </div>
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/30887329/" class="result-link" target="_blank">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                    <polyline points="15 3 21 3 21 9"></polyline>
+                                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                                </svg>
+                                View Full Content
+                            </a>
+                        </div>
+                    </article>
+                    
+                    <article class="result-card">
+                        <div class="result-header">
+                            <div class="result-source">
+                                🔬 PubMed
+                            </div>
+                            <div class="result-score">Relevance: 0.67</div>
+                        </div>
+                        <div class="result-body">
+                            <h3 class="result-title">[Night sweats, a common symptom].</h3>
+                            <div class="result-content">
+                                Night sweats are a common symptom. There is a lack of a uniform definition and a diagnostic guideline. In this article we propose a structural analysis for all levels of healthcare. First, we need to distinguish night sweats with or without fever. We will then discuss the main differential diagnoses (infection, malignancies, sleeping disorders and medication-related) and emphasize the role of diag...
+                            </div>
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/39435709/" class="result-link" target="_blank">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                    <polyline points="15 3 21 3 21 9"></polyline>
+                                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                                </svg>
+                                View Full Content
+                            </a>
+                        </div>
+                    </article>
+                    
+                    <article class="result-card">
+                        <div class="result-header">
+                            <div class="result-source">
+                                🔬 PubMed
+                            </div>
+                            <div class="result-score">Relevance: 0.66</div>
+                        </div>
+                        <div class="result-body">
+                            <h3 class="result-title">Diagnosing night sweats.</h3>
+                            <div class="result-content">
+                                Night sweats are a common outpatient complaint, yet literature on the subject is scarce. Tuberculosis and lymphoma are diseases in which night sweats are a dominant symptom, but these are infrequently found to be the cause of night sweats in modern practice. While these diseases remain important diagnostic considerations in patients with night sweats, other diagnoses to consider include human immu...
+                            </div>
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/12643362/" class="result-link" target="_blank">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                    <polyline points="15 3 21 3 21 9"></polyline>
+                                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                                </svg>
+                                View Full Content
+                            </a>
+                        </div>
+                    </article>
+                    
+                    <article class="result-card">
+                        <div class="result-header">
+                            <div class="result-source">
+                                🔬 PubMed
+                            </div>
+                            <div class="result-score">Relevance: 0.65</div>
+                        </div>
+                        <div class="result-body">
+                            <h3 class="result-title">Persistent Night Sweats: Diagnostic Evaluation.</h3>
+                            <div class="result-content">
+                                Night sweats are a nonspecific symptom that patients commonly experience but rarely discuss with their physicians without prompting. Although many life-threatening causes such as malignancies or infections have been described, most patients who report persistent night sweats in the primary care setting do not have a serious underlying disorder. Conditions commonly associated with night sweats incl...
+                            </div>
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/32996756/" class="result-link" target="_blank">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                    <polyline points="15 3 21 3 21 9"></polyline>
+                                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                                </svg>
+                                View Full Content
+                            </a>
+                        </div>
+                    </article>
+                    
+                    <article class="result-card">
+                        <div class="result-header">
+                            <div class="result-source">
+                                🔬 PubMed
+                            </div>
+                            <div class="result-score">Relevance: 0.61</div>
+                        </div>
+                        <div class="result-body">
+                            <h3 class="result-title">Understanding the pathophysiology of vasomotor symptoms (hot flushes and night sweats) that occur in perimenopause, menopause, and postmenopause life stages.</h3>
+                            <div class="result-content">
+                                Vasomotor symptoms (VMS), commonly called hot flashes or flushes (HFs) and night sweats, are the menopausal symptoms for which women seek treatment during menopause most often. VMS are a form of temperature dysfunction that occurs due to changes in gonadal hormones. Normally, core body temperature (CBT) remains within a specific range, oscillating with daily circadian rhythms. Physiological proces...
+                            </div>
+                            <a href="https://pubmed.ncbi.nlm.nih.gov/18074100/" class="result-link" target="_blank">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                    <polyline points="15 3 21 3 21 9"></polyline>
+                                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                                </svg>
+                                View Full Content
+                            </a>
+                        </div>
+                    </article>
+                    
+                </section>
+            </main>
+            
+            <footer>
+                <div class="container">
+                    <p>Report generated on July 01, 2025 23:23:25 by Medical Search System</p>
+                    <p>This clinical analysis is for informational purposes only and should not replace professional medical advice.</p>
+                </div>
+            </footer>
+            
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Animate elements when they come into view
+                    const animateOnScroll = function() {
+                        const elements = document.querySelectorAll('.analysis-card, .result-card');
+                        elements.forEach(element => {
+                            const elementPosition = element.getBoundingClientRect().top;
+                            const screenPosition = window.innerHeight / 1.2;
+                            
+                            if (elementPosition < screenPosition) {
+                                element.style.opacity = '1';
+                                element.style.transform = 'translateY(0)';
+                            }
+                        });
+                    };
+                    
+                    window.addEventListener('scroll', animateOnScroll);
+                    animateOnScroll();
+                });
+            </script>
+        </body>
+        </html>
+        

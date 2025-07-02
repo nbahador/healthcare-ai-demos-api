@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Case Analysis Workflow</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+            font-weight: 300;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .workflow {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            position: relative;
+        }
+
+        .stage {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            opacity: 0;
+            transform: translateX(-50px);
+            animation: slideIn 0.8s ease-out forwards;
+        }
+
+        .stage:nth-child(1) { animation-delay: 0.2s; }
+        .stage:nth-child(2) { animation-delay: 0.4s; }
+        .stage:nth-child(3) { animation-delay: 0.6s; }
+        .stage:nth-child(4) { animation-delay: 0.8s; }
+        .stage:nth-child(5) { animation-delay: 1.0s; }
+        .stage:nth-child(6) { animation-delay: 1.2s; }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .stage-number {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+            flex-shrink: 0;
+        }
+
+        .stage-content {
+            flex: 1;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border-left: 5px solid #3498db;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stage-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(52, 152, 219, 0.05));
+            pointer-events: none;
+        }
+
+        .stage-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stage-description {
+            color: #7f8c8d;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .model-info {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 3px solid #28a745;
+        }
+
+        .model-name {
+            font-weight: 600;
+            color: #28a745;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        .model-type {
+            font-size: 0.8em;
+            color: #6c757d;
+        }
+
+        .data-flow {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .data-tag {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 500;
+        }
+
+        .arrow {
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, #3498db, #2980b9);
+            position: relative;
+            margin: 0 10px;
+            align-self: center;
+        }
+
+        .arrow::after {
+            content: '';
+            position: absolute;
+            right: -5px;
+            top: -3px;
+            width: 0;
+            height: 0;
+            border-left: 8px solid #2980b9;
+            border-top: 4px solid transparent;
+            border-bottom: 4px solid transparent;
+        }
+
+        .output-section {
+            background: linear-gradient(135deg, #27ae60, #229954);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 20px;
+            box-shadow: 0 5px 20px rgba(39, 174, 96, 0.3);
+        }
+
+        .output-title {
+            font-size: 1.5em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .output-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .output-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+        }
+
+        .output-card h4 {
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f39c12, #e67e22);
+            border-radius: 2px;
+            animation: progressFill 2s ease-out forwards;
+            width: 0;
+        }
+
+        @keyframes progressFill {
+            to { width: 100%; }
+        }
+
+        .icon {
+            font-size: 1.2em;
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .processing-indicator {
+            display: inline-block;
+            margin-left: 10px;
+        }
+
+        .dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #3498db;
+            margin: 0 2px;
+            animation: dotPulse 1.4s infinite ease-in-out;
+        }
+
+        .dot:nth-child(1) { animation-delay: -0.32s; }
+        .dot:nth-child(2) { animation-delay: -0.16s; }
+        .dot:nth-child(3) { animation-delay: 0s; }
+
+        @keyframes dotPulse {
+            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .stage {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .arrow {
+                transform: rotate(90deg);
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏥 Medical Case Analysis Workflow</h1>
+        
+        <div class="workflow">
+            <!-- Stage 1: Input -->
+            <div class="stage">
+                <div class="stage-number">1</div>
+                <div class="stage-content">
+                    <h3 class="stage-title">
+                        <span class="icon">📝</span>
+                        Input Processing
+                    </h3>
+                    <p class="stage-description">
+                        Raw medical case text is received and preprocessed for analysis
+                    </p>
+                    <div class="data-flow">
+                        <div class="data-tag">Medical Case Text</div>
+                        <div class="data-tag">Text Validation</div>
+                        <div class="data-tag">Length Check (15K chars)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stage 2: Structure Extraction -->
+            <div class="stage">
+                <div class="stage-number">2</div>
+                <div class="stage-content">
+                    <h3 class="stage-title">
+                        <span class="icon">🧠</span>
+                        Structure Extraction
+                        <span class="processing-indicator">
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                        </span>
+                    </h3>
+                    <p class="stage-description">
+                        AI model extracts structured data from unstructured medical text
+                    </p>
+                    <div class="model-info">
+                        <div class="model-name">Meta-Llama-3.1-70B-Instruct</div>
+                        <div class="model-type">Large Language Model • JSON Output</div>
+                    </div>
+                    <div class="data-flow">
+                        <div class="data-tag">Patient Info</div>
+                        <div class="data-tag">Timeline</div>
+                        <div class="data-tag">Symptoms</div>
+                        <div class="data-tag">Tests</div>
+                        <div class="data-tag">Treatments</div>
+                        <div class="data-tag">Diagnosis</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stage 3: Knowledge Graph -->
+            <div class="stage">
+                <div class="stage-number">3</div>
+                <div class="stage-content">
+                    <h3 class="stage-title">
+                        <span class="icon">🕸️</span>
+                        Knowledge Graph Creation
+                        <span class="processing-indicator">
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                        </span>
+                    </h3>
+                    <p class="stage-description">
+                        Transforms structured data into interconnected knowledge graph
+                    </p>
+                    <div class="model-info">
+                        <div class="model-name">Meta-Llama-3.1-70B-Instruct</div>
+                        <div class="model-type">Graph Processing • Relationship Mapping</div>
+                    </div>
+                    <div class="data-flow">
+                        <div class="data-tag">Nodes</div>
+                        <div class="data-tag">Relationships</div>
+                        <div class="data-tag">Entity Types</div>
+                        <div class="data-tag">Connections</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stage 4: Clinical Analysis -->
+            <div class="stage">
+                <div class="stage-number">4</div>
+                <div class="stage-content">
+                    <h3 class="stage-title">
+                        <span class="icon">🔍</span>
+                        Clinical Analysis
+                        <span class="processing-indicator">
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                        </span>
+                    </h3>
+                    <p class="stage-description">
+                        Deep analysis for malpractice, diagnostic accuracy, and treatment appropriateness
+                    </p>
+                    <div class="model-info">
+                        <div class="model-name">Meta-Llama-3.1-70B-Instruct</div>
+                        <div class="model-type">Medical Analysis • Risk Assessment</div>
+                    </div>
+                    <div class="data-flow">
+                        <div class="data-tag">Malpractice Issues</div>
+                        <div class="data-tag">Diagnostic Accuracy</div>
+                        <div class="data-tag">Treatment Review</div>
+                        <div class="data-tag">Timeline Analysis</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stage 5: Report Generation -->
+            <div class="stage">
+                <div class="stage-number">5</div>
+                <div class="stage-content">
+                    <h3 class="stage-title">
+                        <span class="icon">📊</span>
+                        Report Generation
+                    </h3>
+                    <p class="stage-description">
+                        Combines all analysis results into comprehensive HTML report
+                    </p>
+                    <div class="model-info">
+                        <div class="model-name">HTMLReportGenerator</div>
+                        <div class="model-type">Template Engine • Data Visualization</div>
+                    </div>
+                    <div class="data-flow">
+                        <div class="data-tag">Timeline Visualization</div>
+                        <div class="data-tag">Entity Cards</div>
+                        <div class="data-tag">Analysis Sections</div>
+                        <div class="data-tag">Interactive Elements</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Output Section -->
+        <div class="output-section">
+            <h3 class="output-title">
+                <span class="icon">🎯</span>
+                Final Output
+            </h3>
+            <p>Complete medical case knowledge graph report with interactive visualizations</p>
+            
+            <div class="output-grid">
+                <div class="output-card">
+                    <h4>📈 Timeline Visualization</h4>
+                    <p>Interactive timeline showing case progression</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="animation-delay: 0.5s;"></div>
+                    </div>
+                </div>
+                
+                <div class="output-card">
+                    <h4>🏷️ Entity Extraction</h4>
+                    <p>Categorized medical entities and relationships</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="animation-delay: 0.7s;"></div>
+                    </div>
+                </div>
+                
+                <div class="output-card">
+                    <h4>⚕️ Clinical Analysis</h4>
+                    <p>Professional medical case assessment</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="animation-delay: 0.9s;"></div>
+                    </div>
+                </div>
+                
+                <div class="output-card">
+                    <h4>📋 HTML Report</h4>
+                    <p>Professional formatted report with styling</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="animation-delay: 1.1s;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add some interactive elements
+        document.addEventListener('DOMContentLoaded', function() {
+            const stages = document.querySelectorAll('.stage-content');
+            
+            stages.forEach(stage => {
+                stage.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                    this.style.boxShadow = '0 10px 30px rgba(0,0,0,0.15)';
+                    this.style.transition = 'all 0.3s ease';
+                });
+                
+                stage.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = '0 5px 20px rgba(0,0,0,0.1)';
+                });
+            });
+
+            // Add click to highlight functionality
+            stages.forEach((stage, index) => {
+                stage.addEventListener('click', function() {
+                    // Remove previous highlights
+                    stages.forEach(s => s.classList.remove('highlighted'));
+                    
+                    // Add highlight to clicked stage
+                    this.classList.add('highlighted');
+                    
+                    // Add some visual feedback
+                    this.style.borderLeft = '5px solid #e74c3c';
+                    setTimeout(() => {
+                        this.style.borderLeft = '5px solid #3498db';
+                    }, 1000);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

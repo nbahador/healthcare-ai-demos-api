@@ -1,0 +1,536 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nebius API Journey Visualization</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #f8fafc;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        h1 {
+            text-align: center;
+            background: linear-gradient(90deg, #7c3aed, #3b82f6, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            font-size: 3rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #94a3b8;
+            margin-bottom: 50px;
+            font-size: 1.3rem;
+            font-weight: 300;
+            opacity: 0.9;
+        }
+        
+        #graph {
+            width: 100%;
+            height: 80vh;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            box-shadow: 
+                0 10px 15px -3px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .node {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .node:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 15px currentColor);
+        }
+        
+        .node-shape {
+            transition: all 0.3s ease;
+            rx: 12px;
+            ry: 12px;
+        }
+        
+        .node-text {
+            font-size: 13px;
+            font-weight: 600;
+            text-anchor: middle;
+            dominant-baseline: middle;
+            fill: #ffffff;
+            pointer-events: none;
+        }
+        
+        .node-subtext {
+            font-size: 11px;
+            font-weight: 500;
+            text-anchor: middle;
+            dominant-baseline: middle;
+            fill: rgba(255, 255, 255, 0.9);
+            pointer-events: none;
+        }
+        
+        .link {
+            stroke-opacity: 0.6;
+            stroke-width: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .link:hover {
+            stroke-opacity: 0.9;
+            stroke-width: 5px;
+        }
+        
+        .arrow {
+            fill: #94a3b8;
+            stroke-width: 0;
+        }
+        
+        .legend {
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .legend-item:hover {
+            background: rgba(30, 41, 59, 0.8);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .legend-shape {
+            margin-right: 12px;
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+        }
+        
+        .tooltip {
+            position: absolute;
+            padding: 16px;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 12px;
+            pointer-events: none;
+            font-size: 14px;
+            max-width: 350px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            color: #e2e8f0;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .tooltip h3 {
+            margin: 0 0 8px 0;
+            background: linear-gradient(90deg, #7c3aed, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .tooltip p {
+            margin: 6px 0;
+            line-height: 1.5;
+            color: #cbd5e1;
+        }
+        
+        .tooltip-code {
+            background: rgba(30, 41, 59, 0.8);
+            padding: 10px;
+            border-radius: 6px;
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 12px;
+            color: #bae6fd;
+            border-left: 3px solid #3b82f6;
+            margin: 8px 0;
+        }
+        
+        .phase-label {
+            font-size: 14px;
+            font-weight: 600;
+            fill: #64748b;
+            text-anchor: middle;
+        }
+        
+        .phase-line {
+            stroke: rgba(100, 116, 139, 0.2);
+            stroke-width: 1;
+            stroke-dasharray: 4,4;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.9; }
+            50% { opacity: 1; }
+        }
+        
+        .api-node .node-shape {
+            animation: pulse 3s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Nebius API Journey Visualization</h1>
+        <p class="subtitle">From Input to Output: The Flow of Medical Data Processing</p>
+        
+        <div id="graph"></div>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-shape" style="background: linear-gradient(135deg, #7c3aed, #6d28d9);"></div>
+                <span>Input/Output Nodes</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-shape" style="background: linear-gradient(135deg, #3b82f6, #2563eb);"></div>
+                <span>Nebius API Calls</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-shape" style="background: linear-gradient(135deg, #10b981, #059669);"></div>
+                <span>Data Processing</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-shape" style="background: linear-gradient(135deg, #f59e0b, #d97706);"></div>
+                <span>Vision Models</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-shape" style="background: linear-gradient(135deg, #ec4899, #db2777);"></div>
+                <span>LLM Models</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="tooltip"></div>
+    
+    <script>
+        // Enhanced data with better text fitting
+        const graphData = {
+            nodes: [
+                { id: 1, name: "Medical Website", subname: "URL Input", group: "input", phase: "Input", 
+                  description: "Starting point with the medical content URL to be processed" },
+                
+                { id: 2, name: "Fetch Website", subname: "Content", group: "processing", phase: "Data Extraction", 
+                  description: "Uses BeautifulSoup to extract text content and identify medical images" },
+                { id: 3, name: "Download", subname: "Images", group: "processing", phase: "Data Extraction", 
+                  description: "Downloads identified medical images for later analysis" },
+                
+                { id: 4, name: "Initial Medical", subname: "Analysis", group: "api", phase: "Text Analysis", 
+                  description: "First Nebius API call to analyze medical content", 
+                  details: "Model: meta-llama/Meta-Llama-3.1-70B-Instruct\nTemperature: 0.2\nMax Tokens: 6000\nPurpose: Extract structured medical data" },
+                { id: 5, name: "Follow-up Care", subname: "Analysis", group: "api", phase: "Text Analysis", 
+                  description: "Second Nebius API call for discharge planning", 
+                  details: "Model: meta-llama/Meta-Llama-3.1-70B-Instruct\nTemperature: 0.2\nMax Tokens: 6000\nPurpose: Extract care instructions and follow-up" },
+                
+                { id: 6, name: "Medical Image", subname: "Analysis", group: "vision", phase: "Image Analysis", 
+                  description: "Nebius Vision API for medical image interpretation", 
+                  details: "Model: meta-llama/Meta-Llama-3.2-90B-Vision-Instruct\nTemperature: 0.1\nMax Tokens: 2000\nPurpose: Analyze X-rays, scans, charts" },
+                
+                { id: 7, name: "Parse AI", subname: "Responses", group: "processing", phase: "Data Processing", 
+                  description: "Parse JSON responses from Nebius API with error handling" },
+                { id: 8, name: "Structure PODS", subname: "Data", group: "processing", phase: "Data Processing", 
+                  description: "Organize extracted data into ComprehensivePODS dataclass structure" },
+                
+                { id: 9, name: "Generate HTML", subname: "Report", group: "processing", phase: "Output Generation", 
+                  description: "Create interactive medical report with all extracted data" },
+                { id: 10, name: "Final PODS", subname: "Report", group: "output", phase: "Output", 
+                  description: "Complete Patient Oriented Discharge Summary in HTML format" }
+            ],
+            links: [
+                { source: 1, target: 2, value: 5 },
+                { source: 2, target: 3, value: 3 },
+                { source: 2, target: 4, value: 8 },
+                { source: 3, target: 6, value: 5 },
+                { source: 4, target: 7, value: 8 },
+                { source: 2, target: 5, value: 8 },
+                { source: 5, target: 7, value: 8 },
+                { source: 6, target: 7, value: 5 },
+                { source: 7, target: 8, value: 5 },
+                { source: 8, target: 9, value: 8 },
+                { source: 9, target: 10, value: 5 }
+            ]
+        };
+
+        // Professional color scheme with spectrum progression
+        const colorSchemes = {
+            input: { fill: "#7c3aed", stroke: "#6d28d9" },
+            output: { fill: "#7c3aed", stroke: "#6d28d9" },
+            api: { fill: "#3b82f6", stroke: "#2563eb" },
+            processing: { fill: "#10b981", stroke: "#059669" },
+            vision: { fill: "#f59e0b", stroke: "#d97706" },
+            llm: { fill: "#ec4899", stroke: "#db2777" }
+        };
+
+        // Set up the SVG
+        const width = document.getElementById('graph').clientWidth;
+        const height = window.innerHeight * 0.8;
+        
+        const svg = d3.select("#graph")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height);
+            
+        // Add marker definitions for arrowheads
+        const defs = svg.append("defs");
+        
+        // Add arrow markers
+        defs.append("marker")
+            .attr("id", "arrowhead")
+            .attr("viewBox", "0 -5 10 10")
+            .attr("refX", 25)
+            .attr("refY", 0)
+            .attr("orient", "auto")
+            .attr("markerWidth", 6)
+            .attr("markerHeight", 6)
+            .attr("xoverflow", "visible")
+            .append("svg:path")
+            .attr("d", "M 0,-5 L 10,0 L 0,5")
+            .attr("class", "arrow");
+        
+        // Add gradient definitions
+        Object.entries(colorSchemes).forEach(([key, colors]) => {
+            const gradient = defs.append("linearGradient")
+                .attr("id", `gradient-${key}`)
+                .attr("x1", "0%").attr("y1", "0%")
+                .attr("x2", "100%").attr("y2", "100%");
+            
+            gradient.append("stop")
+                .attr("offset", "0%")
+                .attr("stop-color", colors.fill)
+                .attr("stop-opacity", 1);
+                
+            gradient.append("stop")
+                .attr("offset", "100%")
+                .attr("stop-color", colors.stroke)
+                .attr("stop-opacity", 0.8);
+        });
+        
+        // Phase setup
+        const phases = [
+            { name: "Input", x: 0, width: width * 0.12 },
+            { name: "Data Extraction", x: width * 0.12, width: width * 0.18 },
+            { name: "Text Analysis", x: width * 0.3, width: width * 0.2 },
+            { name: "Image Analysis", x: width * 0.5, width: width * 0.15 },
+            { name: "Data Processing", x: width * 0.65, width: width * 0.15 },
+            { name: "Output Generation", x: width * 0.8, width: width * 0.08 },
+            { name: "Output", x: width * 0.88, width: width * 0.12 }
+        ];
+        
+        // Add phase labels
+        svg.selectAll(".phase-label")
+            .data(phases)
+            .enter()
+            .append("text")
+            .attr("class", "phase-label")
+            .attr("x", d => d.x + d.width / 2)
+            .attr("y", 40)
+            .text(d => d.name);
+            
+        // Add phase divider lines
+        svg.selectAll(".phase-line")
+            .data(phases.slice(0, -1))
+            .enter()
+            .append("line")
+            .attr("class", "phase-line")
+            .attr("x1", d => d.x + d.width)
+            .attr("y1", 55)
+            .attr("x2", d => d.x + d.width)
+            .attr("y2", height - 40);
+        
+        // Create the force simulation with stronger forces to prevent overlap
+        const simulation = d3.forceSimulation(graphData.nodes)
+            .force("link", d3.forceLink(graphData.links)
+                .id(d => d.id)
+                .distance(d => {
+                    // Increase distance based on node type and phase
+                    const baseDistance = 180;
+                    const sourcePhase = phases.findIndex(p => p.name === d.source.phase);
+                    const targetPhase = phases.findIndex(p => p.name === d.target.phase);
+                    const phaseDiff = Math.abs(sourcePhase - targetPhase);
+                    return baseDistance + (phaseDiff * 40);
+                })
+            )
+            .force("charge", d3.forceManyBody().strength(-800)) // Increased repulsion
+            .force("x", d3.forceX().x(d => {
+                const phase = phases.find(p => p.name === d.phase);
+                return phase ? phase.x + phase.width / 2 : width / 2;
+            }).strength(1.5)) // Increased strength to keep nodes in phases
+            .force("y", d3.forceY(height / 2).strength(0.5))
+            .force("collision", d3.forceCollide().radius(d => {
+                // Dynamic radius based on text length
+                const textWidth = Math.max(d.name.length * 7, 100);
+                return (textWidth + 40) / 2 + 20; // Extra padding
+            }));
+        
+        // Create the links with arrowheads and increased width
+        const link = svg.append("g")
+            .selectAll("line")
+            .data(graphData.links)
+            .enter()
+            .append("line")
+            .attr("class", "link")
+            .attr("stroke", d => {
+                const sourceGroup = graphData.nodes.find(n => n.id === d.source.id).group;
+                return colorSchemes[sourceGroup].stroke;
+            })
+            .attr("stroke-width", d => Math.sqrt(d.value) + 3) // Increased base width
+            .attr("marker-end", "url(#arrowhead)");
+        
+        // Create node groups
+        const node = svg.append("g")
+            .selectAll(".node")
+            .data(graphData.nodes)
+            .enter()
+            .append("g")
+            .attr("class", d => `node ${d.group}-node`)
+            .call(d3.drag()
+                .on("start", dragstarted)
+                .on("drag", dragged)
+                .on("end", dragended));
+        
+        // Add rounded rectangle shapes for all nodes with dynamic sizing
+        node.each(function(d) {
+            const nodeGroup = d3.select(this);
+            const colors = colorSchemes[d.group] || colorSchemes.processing;
+            
+            // Calculate width based on text length
+            const textWidth = Math.max(d.name.length * 7, 100);
+            const rectWidth = textWidth + 40;
+            const rectHeight = d.subname ? 70 : 50;
+            
+            // Create rounded rectangle shape
+            nodeGroup.append("rect")
+                .attr("class", "node-shape")
+                .attr("x", -rectWidth/2)
+                .attr("y", -rectHeight/2)
+                .attr("width", rectWidth)
+                .attr("height", rectHeight)
+                .attr("rx", 12)
+                .attr("ry", 12)
+                .attr("fill", `url(#gradient-${d.group})`)
+                .attr("stroke", colors.stroke)
+                .attr("stroke-width", 2);
+            
+            // Add main text
+            nodeGroup.append("text")
+                .attr("class", "node-text")
+                .attr("dy", d.subname ? "-0.3em" : "0.1em")
+                .text(d.name);
+            
+            // Add subtext if available
+            if (d.subname) {
+                nodeGroup.append("text")
+                    .attr("class", "node-subtext")
+                    .attr("dy", "0.8em")
+                    .text(d.subname);
+            }
+        });
+        
+        // Add hover effects
+        node
+            .on("mouseover", showTooltip)
+            .on("mouseout", hideTooltip);
+        
+        // Update positions on each tick
+        simulation.on("tick", () => {
+            link
+                .attr("x1", d => d.source.x)
+                .attr("y1", d => d.source.y)
+                .attr("x2", d => {
+                    // Adjust target position to account for arrowhead
+                    const dx = d.target.x - d.source.x;
+                    const dy = d.target.y - d.source.y;
+                    const len = Math.sqrt(dx * dx + dy * dy);
+                    const normX = dx / len;
+                    const normY = dy / len;
+                    const targetPadding = 20; // Adjust based on node size
+                    return d.target.x - normX * targetPadding;
+                })
+                .attr("y2", d => {
+                    const dx = d.target.x - d.source.x;
+                    const dy = d.target.y - d.source.y;
+                    const len = Math.sqrt(dx * dx + dy * dy);
+                    const normX = dx / len;
+                    const normY = dy / len;
+                    const targetPadding = 20;
+                    return d.target.y - normY * targetPadding;
+                });
+            
+            node
+                .attr("transform", d => `translate(${d.x},${d.y})`);
+        });
+        
+        // Enhanced tooltip functions
+        const tooltip = d3.select(".tooltip");
+        
+        function showTooltip(event, d) {
+            tooltip
+                .style("left", (event.pageX + 15) + "px")
+                .style("top", (event.pageY - 15) + "px")
+                .style("opacity", 1)
+                .html(`
+                    <h3>${d.name} ${d.subname ? d.subname : ''}</h3>
+                    <p>${d.description}</p>
+                    ${d.details ? `<div class="tooltip-code">${d.details.replace(/\n/g, "<br>")}</div>` : ''}
+                    <p><em>Phase: ${d.phase}</em></p>
+                `);
+        }
+        
+        function hideTooltip() {
+            tooltip.style("opacity", 0);
+        }
+        
+        // Drag functions
+        function dragstarted(event, d) {
+            if (!event.active) simulation.alphaTarget(0.3).restart();
+            d.fx = d.x;
+            d.fy = d.y;
+        }
+        
+        function dragged(event, d) {
+            d.fx = event.x;
+            d.fy = event.y;
+        }
+        
+        function dragended(event, d) {
+            if (!event.active) simulation.alphaTarget(0);
+            d.fx = null;
+            d.fy = null;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+﻿modal
+openai
+numpy
+pandas
+scikit-learn
+plotly
+fastapi
+uvicorn
+jinja2
+python-multipart
+kaleido

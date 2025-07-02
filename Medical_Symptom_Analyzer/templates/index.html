@@ -1,0 +1,718 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Symptom Analyzer | Professional Health Assessment</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light: #3b82f6;
+            --primary-dark: #1d4ed8;
+            --emergency: #dc2626;
+            --urgent: #ea580c;
+            --monitor: #0891b2;
+            --normal: #16a34a;
+            --text-dark: #1e293b;
+            --text-medium: #475569;
+            --text-light: #64748b;
+            --bg-light: #f8fafc;
+            --bg-white: #ffffff;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --radius: 12px;
+            --radius-sm: 8px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: var(--text-medium);
+            background-color: var(--bg-light);
+            padding: 0;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.5rem;
+            margin-top: 2rem;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 500;
+        }
+
+        .card {
+            background-color: var(--bg-white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn i {
+            margin-right: 0.5rem;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .spinner {
+            border: 4px solid rgba(37, 99, 235, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid var(--primary);
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Report Styling */
+        .report-container {
+            display: none;
+        }
+
+        .report-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .patient-info {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .urgency-banner {
+            padding: 1.5rem;
+            border-radius: var(--radius-sm);
+            margin: 1.5rem 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .urgency-emergency {
+            background-color: rgba(220, 38, 38, 0.1);
+            border-left: 5px solid var(--emergency);
+        }
+
+        .urgency-urgent {
+            background-color: rgba(234, 88, 12, 0.1);
+            border-left: 5px solid var(--urgent);
+        }
+
+        .urgency-monitor {
+            background-color: rgba(8, 145, 178, 0.1);
+            border-left: 5px solid var(--monitor);
+        }
+
+        .urgency-icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+        }
+
+        .urgency-content h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .action-timeline {
+            margin: 2rem 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-radius: var(--radius-sm);
+        }
+
+        .timeline-item.now {
+            background-color: rgba(220, 38, 38, 0.05);
+            border-left: 3px solid var(--emergency);
+        }
+
+        .timeline-item.within-hour {
+            background-color: rgba(234, 88, 12, 0.05);
+            border-left: 3px solid var(--urgent);
+        }
+
+        .timeline-item.monitor {
+            background-color: rgba(8, 145, 178, 0.05);
+            border-left: 3px solid var(--monitor);
+        }
+
+        .timeline-icon {
+            margin-right: 1rem;
+            font-size: 1.25rem;
+            padding-top: 0.25rem;
+        }
+
+        .timeline-item.now .timeline-icon {
+            color: var(--emergency);
+        }
+
+        .timeline-item.within-hour .timeline-icon {
+            color: var(--urgent);
+        }
+
+        .timeline-item.monitor .timeline-icon {
+            color: var(--monitor);
+        }
+
+        .action-items {
+            margin: 2rem 0;
+        }
+
+        .action-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background-color: var(--bg-light);
+            border-radius: var(--radius-sm);
+        }
+
+        .action-number {
+            background-color: var(--primary);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            flex-shrink: 0;
+            font-weight: 600;
+        }
+
+        .section-card {
+            background-color: var(--bg-white);
+            border-radius: var(--radius-sm);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .section-card h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-card h3 i {
+            margin-right: 0.75rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .follow-up {
+            background-color: rgba(37, 99, 235, 0.05);
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            border-radius: var(--radius-sm);
+            margin: 2rem 0;
+        }
+
+        .follow-up h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .follow-up ul {
+            padding-left: 1.5rem;
+        }
+
+        .follow-up li {
+            margin-bottom: 0.5rem;
+        }
+
+        .conversation-history {
+            margin-top: 3rem;
+            border-top: 1px solid var(--border);
+            padding-top: 2rem;
+        }
+
+        .message {
+            margin-bottom: 1.5rem;
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius-sm);
+            max-width: 80%;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        .user-message {
+            background-color: #e0e7ff;
+            margin-left: auto;
+            border-bottom-right-radius: 0;
+        }
+
+        .assistant-message {
+            background-color: var(--bg-white);
+            margin-right: auto;
+            border: 1px solid var(--border);
+            border-bottom-left-radius: 0;
+        }
+
+        .message-time {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            margin-top: 0.5rem;
+            text-align: right;
+        }
+
+        .disclaimer {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            .patient-info {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .message {
+                max-width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><i class="fas fa-heartbeat"></i> Medical Symptom Analyzer</h1>
+            <p>Professional health assessment powered by AI</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="card">
+            <h2><i class="fas fa-user-circle"></i> Patient Information</h2>
+            <form id="symptom-form">
+                <div class="form-group">
+                    <label for="age"><i class="fas fa-birthday-cake"></i> Age</label>
+                    <input type="number" id="age" min="0" max="120" placeholder="Enter patient age" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="gender"><i class="fas fa-venus-mars"></i> Gender</label>
+                    <select id="gender" required>
+                        <option value="">Select gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                        <option value="prefer-not-to-say">Prefer not to say</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="symptoms"><i class="fas fa-notes-medical"></i> Symptoms</label>
+                    <textarea id="symptoms" placeholder="Describe your symptoms in detail (e.g., 'Severe headache, fever of 101°F, and nausea since yesterday morning')" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="duration"><i class="fas fa-clock"></i> Duration of Symptoms</label>
+                    <select id="duration" required>
+                        <option value="">Select duration</option>
+                        <option value="less-than-24h">Less than 24 hours</option>
+                        <option value="1-3-days">1-3 days</option>
+                        <option value="3-7-days">3-7 days</option>
+                        <option value="more-than-1-week">More than 1 week</option>
+                        <option value="chronic">Chronic (ongoing)</option>
+                    </select>
+                </div>
+                
+                <button type="submit" id="analyze-btn" class="btn">
+                    <i class="fas fa-search"></i> Analyze Symptoms
+                </button>
+            </form>
+            
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Analyzing symptoms with medical AI...</p>
+            </div>
+        </div>
+        
+        <div class="report-container" id="report-container">
+            <div class="card">
+                <div class="report-header">
+                    <h2><i class="fas fa-file-medical"></i> Medical Symptom Analysis Report</h2>
+                    <div class="patient-info" id="report-patient-info"></div>
+                </div>
+                
+                <div id="urgency-banner" class="urgency-banner">
+                    <div class="urgency-icon" id="urgency-icon"></div>
+                    <div class="urgency-content">
+                        <h3 id="urgency-title"></h3>
+                        <p id="urgency-description"></p>
+                    </div>
+                </div>
+                
+                <div class="section-card">
+                    <h3><i class="fas fa-list-check"></i> Immediate Action Plan</h3>
+                    <div class="action-timeline" id="action-timeline"></div>
+                </div>
+                
+                <div class="info-grid">
+                    <div class="section-card">
+                        <h3><i class="fas fa-microscope"></i> Possible Conditions</h3>
+                        <div id="possible-conditions"></div>
+                    </div>
+                    
+                    <div class="section-card">
+                        <h3><i class="fas fa-clipboard-question"></i> Why This Matters</h3>
+                        <div id="why-matters"></div>
+                    </div>
+                </div>
+                
+                <div class="section-card">
+                    <h3><i class="fas fa-procedures"></i> What to Expect</h3>
+                    <div id="what-to-expect"></div>
+                </div>
+                
+                <div class="follow-up">
+                    <h3><i class="fas fa-question-circle"></i> Follow-up Questions</h3>
+                    <p>Please answer these to help refine our assessment:</p>
+                    <div id="follow-up-questions"></div>
+                </div>
+                
+                <div class="section-card">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Warning Signs</h3>
+                    <div id="warning-signs"></div>
+                </div>
+                
+                <div class="disclaimer">
+                    <p><strong>Disclaimer:</strong> This tool does not provide medical diagnosis. Always consult with a qualified healthcare provider for professional medical advice.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="conversation-history" id="conversation-history"></div>
+    </main>
+
+    <script>
+        let conversationHistory = [];
+        
+        document.getElementById('symptom-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            analyzeSymptoms();
+        });
+        
+        function formatTime() {
+            const now = new Date();
+            return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+        
+        function addToConversation(role, content) {
+            const conversationDiv = document.getElementById('conversation-history');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${role}-message`;
+            
+            let formattedContent = content;
+            if (role === 'user') {
+                formattedContent = `<strong>Patient Input:</strong> ${content}`;
+            }
+            
+            messageDiv.innerHTML = `
+                <div>${formattedContent}</div>
+                <div class="message-time">${formatTime()}</div>
+            `;
+            conversationDiv.appendChild(messageDiv);
+            conversationDiv.scrollTop = conversationDiv.scrollHeight;
+        }
+        
+        function parseResponse(response) {
+            try {
+                // Extract patient info
+                const age = document.getElementById('age').value;
+                const gender = document.getElementById('gender').options[document.getElementById('gender').selectedIndex].text;
+                const symptoms = document.getElementById('symptoms').value;
+                const duration = document.getElementById('duration').options[document.getElementById('duration').selectedIndex].text;
+                
+                document.getElementById('report-patient-info').innerHTML = `
+                    <span><strong>Age:</strong> ${age}</span>
+                    <span><strong>Gender:</strong> ${gender}</span>
+                    <span><strong>Duration:</strong> ${duration}</span>
+                    <span><strong>Symptoms:</strong> ${symptoms.substring(0, 50)}${symptoms.length > 50 ? '...' : ''}</span>
+                `;
+                
+                // Extract urgency level
+                const urgencyMatch = response.match(/\[Urgency Level:\s*(.*?)\]/i);
+                const urgency = urgencyMatch ? urgencyMatch[1].toLowerCase() : 'monitor';
+                
+                const urgencyBanner = document.getElementById('urgency-banner');
+                const urgencyIcon = document.getElementById('urgency-icon');
+                const urgencyTitle = document.getElementById('urgency-title');
+                const urgencyDescription = document.getElementById('urgency-description');
+                
+                urgencyBanner.className = `urgency-banner urgency-${urgency.includes('emergency') ? 'emergency' : urgency.includes('urgent') ? 'urgent' : 'monitor'}`;
+                
+                if (urgency.includes('emergency')) {
+                    urgencyIcon.innerHTML = '<i class="fas fa-exclamation-triangle"></i>';
+                    urgencyTitle.textContent = 'EMERGENCY CARE NEEDED';
+                    urgencyDescription.textContent = 'These symptoms require immediate medical attention. Seek emergency care now.';
+                } else if (urgency.includes('urgent')) {
+                    urgencyIcon.innerHTML = '<i class="fas fa-exclamation-circle"></i>';
+                    urgencyTitle.textContent = 'URGENT CARE RECOMMENDED';
+                    urgencyDescription.textContent = 'These symptoms should be evaluated by a healthcare provider within 24 hours.';
+                } else {
+                    urgencyIcon.innerHTML = '<i class="fas fa-info-circle"></i>';
+                    urgencyTitle.textContent = 'MONITOR CONDITION';
+                    urgencyDescription.textContent = 'These symptoms can be monitored at home but seek care if they worsen.';
+                }
+                
+                // Extract action timeline
+                const timelineMatch = response.match(/\[Action Timeline\](.*?)(?=\[|\n\n)/is);
+                if (timelineMatch) {
+                    const timelineHtml = timelineMatch[1]
+                        .replace('- Do this NOW:', '<div class="timeline-item now"><div class="timeline-icon"><i class="fas fa-bolt"></i></div><div class="timeline-text">')
+                        .replace('- Within 24 hours:', '</div></div><div class="timeline-item within-hour"><div class="timeline-icon"><i class="fas fa-clock"></i></div><div class="timeline-text">')
+                        .replace('- Monitor for changes:', '</div></div><div class="timeline-item monitor"><div class="timeline-icon"><i class="fas fa-eye"></i></div><div class="timeline-text">')
+                        + '</div></div>';
+                    
+                    document.getElementById('action-timeline').innerHTML = timelineHtml;
+                }
+                
+                // Extract possible conditions
+                const conditionsMatch = response.match(/\[Possible Conditions\](.*?)(?=\[|\n\n)/is);
+                if (conditionsMatch) {
+                    document.getElementById('possible-conditions').innerHTML = `
+                        <ul>${conditionsMatch[1].trim().split('\n').map(item => `<li>${item.replace(/^- /, '').trim()}</li>`).join('')}</ul>
+                    `;
+                }
+                
+                // Extract "Why this matters"
+                const whyMattersMatch = response.match(/\[Why This Matters\](.*?)(?=\[|\n\n)/is);
+                if (whyMattersMatch) {
+                    document.getElementById('why-matters').innerHTML = `
+                        <p>${whyMattersMatch[1].trim().replace(/\n/g, '<br>')}</p>
+                    `;
+                }
+                
+                // Extract "What to expect"
+                const whatToExpectMatch = response.match(/\[What to Expect\](.*?)(?=\[|\n\n)/is);
+                if (whatToExpectMatch) {
+                    document.getElementById('what-to-expect').innerHTML = `
+                        <p>${whatToExpectMatch[1].trim().replace(/\n/g, '<br>')}</p>
+                    `;
+                }
+                
+                // Extract follow-up questions
+                const followUpMatch = response.match(/\[Follow-up Questions\](.*?)(?=\[|\n\n)/is);
+                if (followUpMatch) {
+                    document.getElementById('follow-up-questions').innerHTML = `
+                        <ul>${followUpMatch[1].trim().split('\n').map(q => `<li>${q.replace(/^- /, '').trim()}</li>`).join('')}</ul>
+                    `;
+                }
+                
+                // Extract warning signs
+                const warningMatch = response.match(/\[Warning Signs\](.*?)(?=\[|\n\n)/is);
+                if (warningMatch) {
+                    document.getElementById('warning-signs').innerHTML = `
+                        <ul>${warningMatch[1].trim().split('\n').map(item => `<li>${item.replace(/^- /, '').trim()}</li>`).join('')}</ul>
+                    `;
+                }
+                
+                // Show the report
+                document.getElementById('report-container').style.display = 'block';
+                
+            } catch (error) {
+                console.error('Error parsing response:', error);
+                alert('Error processing the medical analysis. Please try again.');
+            }
+        }
+        
+        async function analyzeSymptoms() {
+            const age = document.getElementById('age').value;
+            const gender = document.getElementById('gender').value;
+            const symptoms = document.getElementById('symptoms').value;
+            const duration = document.getElementById('duration').value;
+            
+            if (!age || !gender || !symptoms || !duration) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            // Show loading state
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('report-container').style.display = 'none';
+            
+            // Add user message to conversation
+            const userInput = `Age: ${age}, Gender: ${gender}, Symptoms: ${symptoms}, Duration: ${duration}`;
+            addToConversation('user', userInput);
+            conversationHistory.push({
+                role: 'user',
+                content: userInput
+            });
+            
+            try {
+                const response = await fetch('/analyze_symptoms', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        age: age,
+                        gender: gender,
+                        symptoms: symptoms,
+                        duration: duration,
+                        conversation_history: conversationHistory
+                    }),
+                });
+                
+                const data = await response.json();
+                
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+                
+                // Add assistant response to conversation
+                addToConversation('assistant', data.analysis);
+                conversationHistory.push({
+                    role: 'assistant',
+                    content: data.analysis
+                });
+                
+                // Parse and display the structured response
+                parseResponse(data.analysis);
+                
+            } catch (error) {
+                alert('Error analyzing symptoms: ' + error.message);
+                console.error('Error:', error);
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

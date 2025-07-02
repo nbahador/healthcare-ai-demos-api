@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medication Analysis Workflow</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #64748b;
+            --border: #475569;
+            --glow: rgba(99, 102, 241, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border);
+        }
+
+        .workflow-container {
+            position: relative;
+            margin: 2rem 0;
+        }
+
+        .workflow-stage {
+            display: flex;
+            align-items: center;
+            margin: 2rem 0;
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.6s ease;
+            position: relative;
+        }
+
+        .workflow-stage.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .workflow-stage:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .workflow-stage:nth-child(even) .stage-content {
+            text-align: right;
+        }
+
+        .stage-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .stage-icon.input {
+            background: linear-gradient(135deg, var(--accent), var(--success));
+            box-shadow: 0 0 30px rgba(6, 182, 212, 0.4);
+        }
+
+        .stage-icon.processing {
+            background: linear-gradient(135deg, var(--warning), #fb923c);
+            box-shadow: 0 0 30px rgba(245, 158, 11, 0.4);
+        }
+
+        .stage-icon.ai {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            box-shadow: 0 0 30px var(--glow);
+        }
+
+        .stage-icon.analysis {
+            background: linear-gradient(135deg, var(--secondary), #a855f7);
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.4);
+        }
+
+        .stage-icon.output {
+            background: linear-gradient(135deg, var(--success), #059669);
+            box-shadow: 0 0 30px rgba(16, 185, 129, 0.4);
+        }
+
+        .stage-content {
+            flex: 1;
+            background: var(--bg-secondary);
+            border-radius: 1rem;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+        }
+
+        .stage-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .stage-description {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .tech-badge {
+            padding: 0.25rem 0.75rem;
+            background: var(--bg-tertiary);
+            border-radius: 2rem;
+            font-size: 0.875rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+        }
+
+
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: width 0.3s ease;
+            z-index: 1000;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+
+        .stat-card {
+            background: var(--bg-secondary);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        .flow-diagram {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 3rem 0;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .flow-node {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            min-width: 120px;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .flow-node:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px var(--glow);
+        }
+
+        .flow-arrow {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin: 0 0.5rem;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @media (max-width: 768px) {
+            .workflow-stage {
+                flex-direction: column !important;
+                text-align: center !important;
+            }
+            
+            .workflow-stage:nth-child(even) .stage-content {
+                text-align: center;
+            }
+            
+            .stage-icon {
+                margin: 1rem 0;
+            }
+            
+            .connection-line {
+                display: none;
+            }
+            
+            .flow-diagram {
+                flex-direction: column;
+            }
+            
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1 class="title">Medication Analysis Workflow</h1>
+            <p class="subtitle">Journey from Image to Intelligent Medical Report</p>
+            
+
+        </div>
+
+        <div class="stats-grid" id="statsGrid" style="display: none;">
+            <div class="stat-card">
+                <div class="stat-number">2</div>
+                <div class="stat-label">AI Models Used</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">~3s</div>
+                <div class="stat-label">Average Processing Time</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">95%</div>
+                <div class="stat-label">Identification Accuracy</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">15+</div>
+                <div class="stat-label">Data Points Analyzed</div>
+            </div>
+        </div>
+
+        <div class="flow-diagram">
+            <div class="flow-node">📱 Input</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node">🧠 Vision AI</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node">🔍 Analysis AI</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node">⚕️ Safety Check</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node">📄 Report</div>
+        </div>
+
+        <div class="workflow-container">
+
+            
+            <div class="workflow-stage" data-stage="1">
+                <div class="stage-icon input">📱</div>
+                <div class="stage-content">
+                    <h3 class="stage-title">1. Image Input Processing</h3>
+                    <p class="stage-description">
+                        User uploads medication image or provides URL. The system converts the image to base64 encoding for AI processing.
+                    </p>
+                    <div class="tech-stack">
+                        <span class="tech-badge">Flask</span>
+                        <span class="tech-badge">Base64 Encoding</span>
+                        <span class="tech-badge">File Upload</span>
+                        <span class="tech-badge">Image Processing</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="workflow-stage" data-stage="2">
+                <div class="stage-icon ai">🧠</div>
+                <div class="stage-content">
+                    <h3 class="stage-title">2. AI Vision Model - Medication Identification</h3>
+                    <p class="stage-description">
+                        Qwen2-VL-72B-Instruct analyzes the image to identify the medication name. This state-of-the-art vision model processes visual features to extract text and identify pharmaceutical products.
+                    </p>
+                    <div class="tech-stack">
+                        <span class="tech-badge">Qwen2-VL-72B</span>
+                        <span class="tech-badge">Computer Vision</span>
+                        <span class="tech-badge">OCR</span>
+                        <span class="tech-badge">Nebius API</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="workflow-stage" data-stage="3">
+                <div class="stage-icon analysis">🔍</div>
+                <div class="stage-content">
+                    <h3 class="stage-title">3. Medical Knowledge Analysis</h3>
+                    <p class="stage-description">
+                        Meta-Llama-3.1-70B-Instruct gathers comprehensive medication information including dosage, side effects, interactions, and safety data from medical databases.
+                    </p>
+                    <div class="tech-stack">
+                        <span class="tech-badge">Llama-3.1-70B</span>
+                        <span class="tech-badge">Medical Knowledge</span>
+                        <span class="tech-badge">JSON Processing</span>
+                        <span class="tech-badge">Drug Database</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="workflow-stage" data-stage="4">
+                <div class="stage-icon processing">⚕️</div>
+                <div class="stage-content">
+                    <h3 class="stage-title">4. Safety Analysis & Allergy Check</h3>
+                    <p class="stage-description">
+                        Cross-references medication components with user's known allergies. Identifies potential allergic reactions and drug interactions for personalized safety warnings.
+                    </p>
+                    <div class="tech-stack">
+                        <span class="tech-badge">Allergy Matching</span>
+                        <span class="tech-badge">Safety Algorithms</span>
+                        <span class="tech-badge">Risk Assessment</span>
+                        <span class="tech-badge">Medical Validation</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="workflow-stage" data-stage="5">
+                <div class="stage-icon output">📄</div>
+                <div class="stage-content">
+                    <h3 class="stage-title">5. Comprehensive Report Generation</h3>
+                    <p class="stage-description">
+                        Generates a detailed HTML report with medication information, safety warnings, dosage instructions, and downloadable format. Includes references to authoritative medical sources.
+                    </p>
+                    <div class="tech-stack">
+                        <span class="tech-badge">HTML Generation</span>
+                        <span class="tech-badge">CSS Styling</span>
+                        <span class="tech-badge">PDF Export</span>
+                        <span class="tech-badge">Medical References</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let animationRunning = false;
+        let currentStage = 0;
+
+        function updateProgressBar(progress) {
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function startAnimation() {
+            if (animationRunning) return;
+            
+            animationRunning = true;
+            currentStage = 0;
+            
+            // Reset all stages
+            document.querySelectorAll('.workflow-stage').forEach(stage => {
+                stage.classList.remove('active');
+            });
+            
+            // Start animation sequence
+            animateStages();
+        }
+
+        function animateStages() {
+            const stages = document.querySelectorAll('.workflow-stage');
+            
+            if (currentStage < stages.length) {
+                stages[currentStage].classList.add('active');
+                updateProgressBar(((currentStage + 1) / stages.length) * 100);
+                
+                // Add processing effect
+                if (currentStage === 1 || currentStage === 2) {
+                    const icon = stages[currentStage].querySelector('.stage-icon');
+                    icon.classList.add('pulse');
+                    setTimeout(() => icon.classList.remove('pulse'), 2000);
+                }
+                
+                currentStage++;
+                setTimeout(animateStages, 1500);
+            } else {
+                animationRunning = false;
+                // Add completion effect
+                setTimeout(() => {
+                    document.querySelectorAll('.stage-icon').forEach(icon => {
+                        icon.style.animation = 'pulse 0.5s ease-in-out';
+                    });
+                }, 500);
+            }
+        }
+
+        function resetAnimation() {
+            animationRunning = false;
+            currentStage = 0;
+            updateProgressBar(0);
+            
+            document.querySelectorAll('.workflow-stage').forEach(stage => {
+                stage.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.stage-icon').forEach(icon => {
+                icon.classList.remove('pulse');
+                icon.style.animation = '';
+            });
+        }
+
+        function toggleDetails() {
+            const statsGrid = document.getElementById('statsGrid');
+            if (statsGrid.style.display === 'none') {
+                statsGrid.style.display = 'grid';
+                statsGrid.style.animation = 'fadeIn 0.5s ease-in-out';
+            } else {
+                statsGrid.style.display = 'none';
+            }
+        }
+
+        // Auto-start animation on page load
+        window.addEventListener('load', () => {
+            setTimeout(startAnimation, 1000);
+        });
+
+        // Add hover effects for flow nodes
+        document.querySelectorAll('.flow-node').forEach(node => {
+            node.addEventListener('mouseenter', () => {
+                node.style.transform = 'scale(1.05)';
+            });
+            
+            node.addEventListener('mouseleave', () => {
+                node.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

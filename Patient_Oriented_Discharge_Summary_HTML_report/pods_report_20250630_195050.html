@@ -1,0 +1,992 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Patient Oriented Discharge Summary (PODS)</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1A1F2B; /* Dark gunmetal background */
+            color: #E0E0E0; /* Metallic silver text */
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #2A2F3B;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+            border: 1px solid #3A3F4B;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1A1F2B 0%, #2A2F3B 100%);
+            color: #E0E0E0;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            border-bottom: 1px solid #3A3F4B;
+        }
+        
+        .header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            color: #FFFFFF;
+        }
+        
+        .header .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .overview-card {
+            background: #2A2F3B;
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 4px solid #FF7F50; /* Soft coral accent */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+        
+        .overview-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        
+        .overview-card h3 {
+            color: #FF7F50; /* Soft coral */
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border: 1px solid #3A3F4B;
+        }
+        
+        .section-header {
+            background: linear-gradient(135deg, #2A2F3B 0%, #3A3F4B 100%);
+            color: #E0E0E0;
+            padding: 20px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            border-bottom: 1px solid #3A3F4B;
+        }
+        
+        .section-header.clinical {
+            border-left: 5px solid #FF7F50; /* Soft coral */
+        }
+        
+        .section-header.demographics {
+            border-left: 5px solid #9ABF88; /* Muted sage */
+        }
+        
+        .section-header.decisions {
+            border-left: 5px solid #6B8E9B; /* Muted teal */
+        }
+        
+        .section-header.medications {
+            border-left: 5px solid #D4A59A; /* Muted coral */
+        }
+        
+        .section-header.appointments {
+            border-left: 5px solid #8FBC8F; /* Muted sage green */
+        }
+        
+        .section-content {
+            padding: 25px;
+            background: #2A2F3B;
+        }
+        
+        .clinical-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+        
+        .clinical-subsection {
+            background: #3A3F4B;
+            border-radius: 8px;
+            padding: 18px;
+            border-left: 4px solid #FF7F50; /* Soft coral */
+        }
+        
+        .clinical-subsection h4 {
+            color: #E0E0E0;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .finding-item {
+            background: #3A3F4B;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-left: 3px solid #9ABF88; /* Muted sage */
+            transition: all 0.3s ease;
+        }
+        
+        .finding-item:hover {
+            background: #4A4F5B;
+            transform: translateX(5px);
+        }
+        
+        .finding-label {
+            font-weight: bold;
+            color: #FFFFFF;
+            margin-bottom: 5px;
+        }
+        
+        .finding-details {
+            color: #C0C0C0;
+            font-size: 0.95rem;
+        }
+        
+        .severity-high {
+            border-left-color: #FF6B6B;
+        }
+        
+        .severity-moderate {
+            border-left-color: #FFA500;
+        }
+        
+        .severity-low {
+            border-left-color: #9ABF88; /* Muted sage */
+        }
+        
+        .medication-card {
+            background: #3A3F4B;
+            border-radius: 8px;
+            padding: 18px;
+            margin-bottom: 18px;
+            border-left: 4px solid #D4A59A; /* Muted coral */
+        }
+        
+        .medication-name {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #FFFFFF;
+            margin-bottom: 10px;
+        }
+        
+        .medication-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-top: 10px;
+        }
+        
+        .medication-detail {
+            background: #4A4F5B;
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 2px solid #D4A59A; /* Muted coral */
+        }
+        
+        .appointment-timeline {
+            position: relative;
+            padding-left: 25px;
+        }
+        
+        .appointment-timeline::before {
+            content: '';
+            position: absolute;
+            left: 12px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #6B8E9B, #8FBC8F);
+        }
+        
+        .appointment-item {
+            position: relative;
+            background: #3A3F4B;
+            border-radius: 8px;
+            padding: 18px;
+            margin-bottom: 18px;
+            border-left: 4px solid #6B8E9B; /* Muted teal */
+        }
+        
+        .appointment-item::before {
+            content: '';
+            position: absolute;
+            left: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 10px;
+            height: 10px;
+            background: #6B8E9B; /* Muted teal */
+            border-radius: 50%;
+            border: 2px solid #2A2F3B;
+        }
+        
+        .urgent-indicator {
+            background: linear-gradient(135deg, #FF6B6B, #D44D4D);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+        
+        .warning-box {
+            background: linear-gradient(135deg, #4A4F5B, #5A5F6B);
+            border: 1px solid #FFA500;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #FFA500;
+        }
+        
+        .emergency-box {
+            background: linear-gradient(135deg, #5A4F5B, #6A5F6B);
+            border: 1px solid #FF6B6B;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #FF6B6B;
+        }
+        
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .image-analysis {
+            background: #3A3F4B;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+        
+        .image-analysis img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 12px;
+        }
+        
+        .collapsible {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .collapsible:hover {
+            background: rgba(255,255,255,0.05);
+        }
+        
+        .content-collapsed {
+            display: none;
+        }
+        
+        .print-button {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: linear-gradient(135deg, #FF7F50, #D46B50);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 20px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255,127,80,0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .print-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255,127,80,0.4);
+        }
+        
+        /* Additional styling for better dark theme readability */
+        a {
+            color: #FF7F50;
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        ul, ol {
+            padding-left: 20px;
+            color: #C0C0C0;
+        }
+        
+        li {
+            margin-bottom: 5px;
+        }
+        
+        strong {
+            color: #FFFFFF;
+        }
+        
+        @media print {
+            body { 
+                background: white; 
+                color: black;
+                padding: 0; 
+            }
+            .container { 
+                box-shadow: none;
+                background: white;
+                border: none;
+            }
+            .print-button { display: none; }
+            .section { 
+                page-break-inside: avoid;
+                border: 1px solid #DDD;
+            }
+            .section-header {
+                background: #F5F5F5 !important;
+                color: #333 !important;
+                border-bottom: 1px solid #DDD !important;
+            }
+            .section-content {
+                background: white !important;
+            }
+            .finding-item, .medication-card, .appointment-item, .clinical-subsection {
+                background: #F9F9F9 !important;
+                border-color: #DDD !important;
+            }
+            .finding-label, .medication-name {
+                color: #333 !important;
+            }
+            .finding-details {
+                color: #666 !important;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container { 
+                margin: 10px; 
+                border-radius: 8px; 
+            }
+            .content { padding: 15px; }
+            .header { padding: 20px; }
+            .header h1 { font-size: 2rem; }
+            .clinical-grid, .overview-grid { grid-template-columns: 1fr; }
+            .medication-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-hospital-alt"></i> Patient Oriented Discharge Summary </h1>
+            <p style="margin-top: 10px; opacity: 0.8;"><i class="fas fa-calendar"></i> Generated: June 30, 2025 at 07:50 PM</p>
+        </div>
+        
+        <div class="content">
+            <!-- Overview Cards -->
+            <div class="overview-grid">
+                <div class="overview-card">
+                    <h3><i class="fas fa-stethoscope"></i> Primary Diagnosis</h3>
+                    <p><strong>Shortness of Breath (SOB)</strong></p>
+                </div>
+                
+                <div class="overview-card">
+                    <h3><i class="fas fa-list-ul"></i> Secondary Diagnoses</h3>
+                    <ul><li>Acute Bronchitis</li><li>Cellulitis/Tinea Pedis</li></ul>
+                </div>
+                
+                <div class="overview-card">
+                    <h3><i class="fas fa-user"></i> Patient Demographics</h3>
+                    <p><strong>Age:</strong> 31</p>
+                    <p><strong>Gender:</strong> Not specified</p>
+                </div>
+            </div>
+            
+            <div class="overview-card" style="grid-column: 1 / -1;">
+                <h3><i class="fas fa-hospital"></i> Hospital Course Summary</h3>
+                <p>The patient presented to the ED with SOB, cough, fever, and upper back pain. He was evaluated, treated, and discharged with a diagnosis of acute bronchitis and cellulitis/tinea pedis.</p>
+            </div>
+            
+            <!-- Clinical Findings Section -->
+            
+            <div class="section">
+                <div class="section-header clinical collapsible">
+                    <i class="fas fa-microscope"></i>
+                    Clinical Findings & Assessment
+                    <i class="fas fa-chevron-down" style="margin-left: auto;"></i>
+                </div>
+                <div class="section-content">
+                    <div class="clinical-grid">
+                        
+            <div class="clinical-subsection">
+                <h4><i class="fas fa-thermometer-half"></i> Symptoms</h4>
+                
+                <div class="finding-item severity-high">
+                    <div class="finding-label">Shortness of Breath</div>
+                    <div class="finding-details">
+                        <strong>Severity:</strong> Severe<br>
+                        <strong>Onset:</strong> 1 day prior to presentation<br>
+                        <strong>Duration:</strong> 1 day<br>
+                        <strong>Characteristics:</strong> Worsening over time<br>
+                    </div>
+                </div>
+            
+                <div class="finding-item severity-moderate">
+                    <div class="finding-label">Cough</div>
+                    <div class="finding-details">
+                        <strong>Severity:</strong> Moderate<br>
+                        <strong>Onset:</strong> 2 days prior to presentation<br>
+                        <strong>Duration:</strong> 2 days<br>
+                        <strong>Characteristics:</strong> Productive<br>
+                    </div>
+                </div>
+            
+                <div class="finding-item severity-low">
+                    <div class="finding-label">Fever</div>
+                    <div class="finding-details">
+                        <strong>Severity:</strong> Mild<br>
+                        <strong>Onset:</strong> 1 day prior to presentation<br>
+                        <strong>Duration:</strong> 1 day<br>
+                        <strong>Characteristics:</strong> Low-grade<br>
+                    </div>
+                </div>
+            
+                <div class="finding-item severity-moderate">
+                    <div class="finding-label">Upper Back Pain</div>
+                    <div class="finding-details">
+                        <strong>Severity:</strong> Moderate<br>
+                        <strong>Onset:</strong> 1 day prior to presentation<br>
+                        <strong>Duration:</strong> 1 day<br>
+                        <strong>Characteristics:</strong> Restricting breathing<br>
+                    </div>
+                </div>
+            
+            </div>
+        
+                        
+            <div class="clinical-subsection">
+                <h4><i class="fas fa-heartbeat"></i> Vital Signs</h4>
+                
+                <div class="finding-item">
+                    <div class="finding-label">Heart Rate</div>
+                    <div class="finding-details">
+                        <strong>Value:</strong> Tachycardic<br>
+                        <strong>Normal Range:</strong> 60-100 bpm<br>
+                        <strong>Significance:</strong> Indicates possible cardiac or respiratory issue
+                    </div>
+                </div>
+            
+                <div class="finding-item">
+                    <div class="finding-label">Respiratory Rate</div>
+                    <div class="finding-details">
+                        <strong>Value:</strong> Tachypneic<br>
+                        <strong>Normal Range:</strong> 12-20 breaths/min<br>
+                        <strong>Significance:</strong> Indicates possible respiratory issue
+                    </div>
+                </div>
+            
+                <div class="finding-item">
+                    <div class="finding-label">Temperature</div>
+                    <div class="finding-details">
+                        <strong>Value:</strong> Febrile<br>
+                        <strong>Normal Range:</strong> 36.5-37.5°C<br>
+                        <strong>Significance:</strong> Indicates possible infection
+                    </div>
+                </div>
+            
+                <div class="finding-item">
+                    <div class="finding-label">Oxygen Saturation</div>
+                    <div class="finding-details">
+                        <strong>Value:</strong> Normal<br>
+                        <strong>Normal Range:</strong> >95%<br>
+                        <strong>Significance:</strong> No indication of hypoxia
+                    </div>
+                </div>
+            
+                <div class="finding-item">
+                    <div class="finding-label">Blood Pressure</div>
+                    <div class="finding-details">
+                        <strong>Value:</strong> Slightly Hypertensive<br>
+                        <strong>Normal Range:</strong> <140/90 mmHg<br>
+                        <strong>Significance:</strong> May indicate cardiovascular issue
+                    </div>
+                </div>
+            
+            </div>
+        
+                        
+            <div class="clinical-subsection">
+                <h4><i class="fas fa-flask"></i> Laboratory Results</h4>
+                
+                <div class="finding-item">
+                    <div class="finding-label">D-dimer</div>
+                    <div class="finding-details">
+                        <strong>Result:</strong> Elevated<br>
+                        <strong>Reference Range:</strong> <500 ng/mL<br>
+                        <strong>Interpretation:</strong> May indicate pulmonary embolism or deep vein thrombosis
+                    </div>
+                </div>
+            
+                <div class="finding-item">
+                    <div class="finding-label">CBC</div>
+                    <div class="finding-details">
+                        <strong>Result:</strong> <br>
+                        <strong>Reference Range:</strong> <br>
+                        <strong>Interpretation:</strong> 
+                    </div>
+                </div>
+            
+                <div class="finding-item">
+                    <div class="finding-label">CMP</div>
+                    <div class="finding-details">
+                        <strong>Result:</strong> <br>
+                        <strong>Reference Range:</strong> <br>
+                        <strong>Interpretation:</strong> 
+                    </div>
+                </div>
+            
+                <div class="finding-item">
+                    <div class="finding-label">Blood Cultures</div>
+                    <div class="finding-details">
+                        <strong>Result:</strong> <br>
+                        <strong>Reference Range:</strong> <br>
+                        <strong>Interpretation:</strong> 
+                    </div>
+                </div>
+            
+            </div>
+        
+                        
+            <div class="clinical-subsection">
+                <h4><i class="fas fa-x-ray"></i> Imaging Studies</h4>
+                
+                <div class="finding-item">
+                    <div class="finding-label">Chest X-ray</div>
+                    <div class="finding-details">
+                        <strong>Findings:</strong> Unremarkable<br>
+                        <strong>Impression:</strong> 
+                    </div>
+                </div>
+            
+                <div class="finding-item">
+                    <div class="finding-label">Bilateral Lower Extremity Venous Duplex Ultrasounds</div>
+                    <div class="finding-details">
+                        <strong>Findings:</strong> <br>
+                        <strong>Impression:</strong> 
+                    </div>
+                </div>
+            
+            </div>
+        
+                        
+            <div class="clinical-subsection">
+                <h4><i class="fas fa-user-md"></i> Physical Examination</h4>
+                
+                <div class="finding-item">
+                    <div class="finding-label"></div>
+                    <div class="finding-details">
+                        <strong>Findings:</strong> <br>
+                        <strong>Significance:</strong> 
+                    </div>
+                </div>
+            
+            </div>
+        
+                    </div>
+                </div>
+            </div>
+        
+            
+            <!-- Patient Demographics Section -->
+            
+            <div class="section">
+                <div class="section-header demographics collapsible">
+                    <i class="fas fa-user-circle"></i>
+                    Patient Demographics & History
+                    <i class="fas fa-chevron-down" style="margin-left: auto;"></i>
+                </div>
+                <div class="section-content">
+                    <div class="clinical-grid">
+                        
+            <div class="clinical-subsection">
+                <h4><i class="fas fa-history"></i> Medical History</h4>
+                <ul><li>Asthma</li></ul>
+            </div>
+        
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        
+            
+            <!-- Clinical Decisions Section -->
+            
+            <div class="section">
+                <div class="section-header decisions collapsible">
+                    <i class="fas fa-brain"></i>
+                    Clinical Decision Making
+                    <i class="fas fa-chevron-down" style="margin-left: auto;"></i>
+                </div>
+                <div class="section-content">
+                    <div class="clinical-grid">
+                        
+            <div class="clinical-subsection">
+                <h4><i class="fas fa-diagnoses"></i> Diagnosis</h4>
+                
+                <div class="finding-item">
+                    <div class="finding-label"></div>
+                    <div class="finding-details">
+                        <strong>Certainty:</strong> <br>
+                        <strong>Evidence:</strong> 
+                    </div>
+                </div>
+            
+            </div>
+        
+                        
+            <div class="clinical-subsection">
+                <h4><i class="fas fa-procedures"></i> Treatment Rationale</h4>
+                
+                <div class="finding-item">
+                    <div class="finding-label"></div>
+                    <div class="finding-details">
+                        <strong>Reasoning:</strong> <br>
+                        <strong>Evidence:</strong> 
+                    </div>
+                </div>
+            
+            </div>
+        
+                        
+            <div class="clinical-subsection">
+                <h4><i class="fas fa-exclamation-circle"></i> Risk Factors</h4>
+                
+                <div class="finding-item ">
+                    <div class="finding-label"></div>
+                    <div class="finding-details">
+                        <strong>Severity:</strong> <br>
+                        <strong>Mitigation:</strong> 
+                    </div>
+                </div>
+            
+            </div>
+        
+                        
+            <div class="clinical-subsection">
+                <h4><i class="fas fa-chart-line"></i> Prognosis</h4>
+                
+                <div class="finding-item">
+                    <div class="finding-label"></div>
+                    <div class="finding-details">
+                        <strong>Timeframe:</strong> <br>
+                        <strong>Influencing Factors:</strong> 
+                    </div>
+                </div>
+            
+            </div>
+        
+                    </div>
+                </div>
+            </div>
+        
+            
+            <!-- Medications Section -->
+            
+            <div class="section">
+                <div class="section-header medications collapsible">
+                    <i class="fas fa-prescription-bottle-alt"></i>
+                    Medications & Changes
+                    <i class="fas fa-chevron-down" style="margin-left: auto;"></i>
+                </div>
+                <div class="section-content">
+                    <h3 style="margin-bottom: 20px;"><i class="fas fa-pills"></i> Discharge Medications</h3>
+                <div class="medication-card">
+                    <div class="medication-name">doxycycline</div>
+                    <div class="medication-grid">
+                        <div class="medication-detail">
+                            <strong>Dose:</strong><br>100mg
+                        </div>
+                        <div class="medication-detail">
+                            <strong>Frequency:</strong><br>as directed
+                        </div>
+                        <div class="medication-detail">
+                            <strong>Duration:</strong><br>as directed
+                        </div>
+                        <div class="medication-detail">
+                            <strong>Purpose:</strong><br>treatment of acute bronchitis and cellulitis/tinea pedis
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+            
+                <div class="medication-card">
+                    <div class="medication-name">Lamisil</div>
+                    <div class="medication-grid">
+                        <div class="medication-detail">
+                            <strong>Dose:</strong><br>250mg
+                        </div>
+                        <div class="medication-detail">
+                            <strong>Frequency:</strong><br>as directed
+                        </div>
+                        <div class="medication-detail">
+                            <strong>Duration:</strong><br>as directed
+                        </div>
+                        <div class="medication-detail">
+                            <strong>Purpose:</strong><br>treatment of cellulitis/tinea pedis
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+            
+                <div class="medication-card">
+                    <div class="medication-name">Zanaflex</div>
+                    <div class="medication-grid">
+                        <div class="medication-detail">
+                            <strong>Dose:</strong><br>
+                        </div>
+                        <div class="medication-detail">
+                            <strong>Frequency:</strong><br>
+                        </div>
+                        <div class="medication-detail">
+                            <strong>Duration:</strong><br>
+                        </div>
+                        <div class="medication-detail">
+                            <strong>Purpose:</strong><br>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+            
+                    
+                </div>
+            </div>
+        
+            
+            <!-- Appointments and Follow-up Section -->
+            
+            <div class="section">
+                <div class="section-header appointments collapsible">
+                    <i class="fas fa-calendar-alt"></i>
+                    Appointments & Follow-up Care
+                    <i class="fas fa-chevron-down" style="margin-left: auto;"></i>
+                </div>
+                <div class="section-content">
+                    
+                    
+                <div class="emergency-box">
+                    <div class="urgent-indicator">URGENT CARE NEEDED</div>
+                    <p><strong>Scenario:</strong> if symptoms do not improve after a few days</p>
+                    <p><strong>Action:</strong> go to another hospital for a CT scan</p>
+                    <p><strong>Timeframe:</strong> as soon as possible</p>
+                </div>
+            
+                    
+                </div>
+            </div>
+        
+            
+            <!-- Care Instructions Section -->
+            
+            <div class="section">
+                <div class="section-header collapsible" style="border-left: 5px solid #9ABF88;">
+                    <i class="fas fa-tasks"></i>
+                    Care Instructions
+                    <i class="fas fa-chevron-down" style="margin-left: auto;"></i>
+                </div>
+                <div class="section-content">
+                    <div class="clinical-grid">
+                        
+                        
+                        <div class="clinical-subsection"><h4><i class="fas fa-band-aid"></i> Wound Care</h4>
+                <div class="finding-item">
+                    <div class="finding-label">Wound Care - erythematous right foot/5th toe</div>
+                    <div class="finding-details">
+                        <strong>Instructions:</strong> <br>
+                        <strong>Frequency:</strong> <br>
+                        <strong>Signs to Watch:</strong> 
+                    </div>
+                </div>
+            </div>
+                    </div>
+                </div>
+            </div>
+        
+            
+            <!-- Warning Signs and Emergency Contacts -->
+            
+            
+            <!-- Healthcare Team Section -->
+            
+            
+            <!-- Medical Images Analysis -->
+            
+            
+            <!-- Original Content Section -->
+            <div class="section">
+                <div class="section-header collapsible">
+                    <i class="fas fa-code"></i>
+                    Original Content Reference
+                    <i class="fas fa-chevron-down" style="margin-left: auto;"></i>
+                </div>
+                <div class="section-content content-collapsed">
+                    <div style="max-height: 400px; overflow-y: auto; background: #3A3F4B; padding: 15px; border-radius: 5px;">
+                        <pre style="white-space: pre-wrap; font-family: monospace; color: #C0C0C0;">HEADING: Case 1: Shortness of Breath
+HEADING: 3 Responses
+Welcome to medmalreviewer.com! The purpose of this site is to improve doctor’s medical knowledge and documentation by reviewing real-life malpractice cases. The first case is below. These cases are presented in long form, deep dive fashion, and I’ll try to post one each month. Each case is broken down into 5 posts. To see more info about the website, here are links to the About Page and FAQs. Another helpful overview post is the 3 Goals of Documentation. I’ve created a Documentation Template to help doctors write notes that are easy to defend, and a Documentation Rubric to grade notes from malpractice cases. 
+Home PagePost 1: IntroductionPost 2: Bad OutcomePost 3: Legal OutcomePost 4: Documentation ReviewPost 5: Medical Review
+This case concerns a 31-year-old man, who presents to the ED with a chief complaint of shortness of breath. He checked into the ED at 7:54pm, and the triage note is shown below. The nurse has documented a cough for two days, fever, SOB, pain in his upper back that restricts his breathing, and a history of asthma. Vitals show that he is tachycardic, tachypneic and febrile but has a normal oxygen saturation and is slightly hypertensive.
+
+By 8:30pm, the ER doctor has seen the patient. The information from the physician’s note is largely the same as the triage note. Additionally, the symptoms are described as having been present for about 1 day, and have gradually worsened. He is short of breath at rest and has not found anything to relieve his symptoms. The doctor also notes chest pain and chest congestion.
+
+
+At this point in the case, let’s pause and think. Any good ER doctor at this point will think about a differential, and then consider what tests need to be done to assess for the items on the differential. What would you think about and what tests would you order?
+
+Unfortunately there’s nothing in the doctor’s note to indicate what he was thinking in regards to a differential. We do, however, have evidence of the orders that were placed. The orders were written by hand but are difficult to read, so we’ll review the version that was entered into the computer. The orders are: CBC, CMP, D-dimer, blood cultures, chest xray, bilateral lower extremity venous duplex ultrasounds, CT chest PE protocol.
+ 
+In regards to medications, the patient was given Toradol 60mg, Norflex 60mg, Tylenol 1000mg, doxycycline 100mg and Lamisil 250mg.
+
+The lab results show elevated D-dimer. There are several other minor abnormalities as well. Obviously, blood culture results will not be back for some time and were not available to the clinician.
+ 
+Imaging results are obtained. The ultrasounds of his bilateral legs do not show any sign of DVT.
+
+The xray of the chest is unremarkable.
+
+At this point it was discovered that the patient was too large for the CT scanner. He had a BMI > 50, and it was felt that the equipment would not be able to safely handle his weight. The remainder of the physician’s note is shown below. There is no discussion of the fact that the CT scanner was too big, nor the subsequent conversation that he had with the patient. Later depositions would suggest that the doctor told the patient that if his symptoms did not improve after a few days, that he should go to another hospital in order to have the CT scan.
+
+
+The patient was given wound care to the erythematous right foot/5th toe.
+
+
+He was then discharged from the ED around 11:30pm with a diagnosis of acute bronchitis and cellulitis/tinea pedis. He was instructed to continue taking doxycycline, Lamisil, and Zanaflex.
+
+The nurse taking care of this patient documented a thorough note, including the discharge vitals. Click here to read the nurse’s note.
+
+How would you have managed the situation differently?
+What do you think happens next?
+What will the outcome be?
+Welcome to medmalreviewer.com! The purpose of this site is to improve doctor’s medical knowledge and documentation by reviewing real-life malpractice cases. The first case is below. These cases are presented in long form, deep dive fashion, and I’ll try to post one each month. Each case is broken down into 5 posts. To see more info about the website, here are links to the About Page and FAQs. Another helpful overview post is the 3 Goals of Documentation. I’ve created a Documentation Template to help doctors write notes that are easy to defend, and a Documentation Rubric to grade notes from malpractice cases.
+Home PagePost 1: IntroductionPost 2: Bad OutcomePost 3: Legal OutcomePost 4: Documentation ReviewPost 5: Medical Review
+This case concerns a 31-year-old man, who presents to the ED with a chief complaint of shortness of breath. He checked into the ED at 7:54pm, and the triage note is shown below. The nurse has documented a cough for two days, fever, SOB, pain in his upper back that restricts his breathing, and a history of asthma. Vitals show that he is tachycardic, tachypneic and febrile but has a normal oxygen saturation and is slightly hypertensive.
+By 8:30pm, the ER doctor has seen the patient. The information from the physician’s note is largely the same as the triage note. Additionally, the symptoms are described as having been present for about 1 day, and have gradually worsened. He is short of breath at rest and has not found anything to relieve his symptoms. The doctor also notes chest pain and chest congestion.
+At this point in the case, let’s pause and think. Any good ER doctor at this point will think about a differential, and then consider what tests need to be done to assess for the items on the differential. What would you think about and what tests would you order?
+Unfortunately there’s nothing in the doctor’s note to indicate what he was thinking in regards to a differential. We do, however, have evidence of the orders that were placed. The orders were written by hand but are difficult to read, so we’ll review the version that was entered into the computer. The orders are: CBC, CMP, D-dimer, blood cultures, chest xray, bilateral lower extremity venous duplex ultrasounds, CT chest PE protocol.
+In regards to medications, the patient was given Toradol 60mg, Norflex 60mg, Tylenol 1000mg, doxycycline 100mg and Lamisil 250mg.
+The lab results show elevated D-dimer. There are several other minor abnormalities as well. Obviously, blood culture results will not be back for some time and were not available to the clinician.
+Imaging results are obtained. The ultrasounds of his bilateral legs do not show any sign of DVT.
+The xray of the chest is unremarkable.
+At this point it was discovered that the patient was too large for the CT scanner. He had a BMI > 50, and it was felt that the equipment would not be able to safely handle his weight. The remainder of the physician’s note is shown below. There is no discussion of the fact that the CT scanner was too big, nor the subsequent conversation that he had with the patient. Later depositions would suggest that the doctor told the patient that if his symptoms did not improve after a few days, that he should go to another hospital in order to have the CT scan.
+The patient was given wound care to the erythematous right foot/5th toe.
+He was then discharged from the ED around 11:30pm with a diagnosis of acute bronchitis and cellulitis/tinea pedis. He was instructed to continue taking doxycycline, Lamisil, and Zanaflex.
+The nurse taking care of this patient documented a thorough note, including the discharge vitals. Click here to read the nurse’s note.
+How would you have managed the situation differently?
+What do you think happens next?
+What will the outcome be?
+M says: 
+
+August 27, 2018 at 10:07 pm 
+
+
+PE had to be ruled out. He gets full anticoagulation until a study demonstrates otherwise.
+August 27, 2018 at 10:07 pm
+PE had to be ruled out. He gets full anticoagulation until a study demonstrates otherwise.
+PE had to be ruled out. He gets full anticoagulation until a study demonstrates otherwise.
+Frank says: 
+
+August 28, 2018 at 4:26 am 
+
+
+I think you are obligated to get a CT scan or V/Q scan some how. If that means admitting the patient putting them on heparin (lovenox hard to dose in obese patients) and let the admit team deal with the transfer. 
+Or if you documented a discussion with the patient regarding needing to get a CT scan — then that would be reasonable. 
+But look, lets be honest here. The patient is fat. And the doctor’s plan was to get a CT. And its the doctors fault that the patient is fat? Too wide for the scanner? Any responsibility on the patient for being so unhealthy? Any responsibility for being sedentary leading to a PE?
+I’m sorry but sure the doc can do better here but at some point human beings need to have some accountability for their own health. 
+Great post by the way.
+Frank says:
+August 28, 2018 at 4:26 am
+I think you are obligated to get a CT scan or V/Q scan some how. If that means admitting the patient putting them on heparin (lovenox hard to dose in obese patients) and let the admit team deal with the transfer. 
+Or if you documented a discussion with the patient regarding needing to get a CT scan — then that would be reasonable. 
+But look, lets be honest here. The patient is fat. And the doctor’s plan was to get a CT. And its the doctors fault that the patient is fat? Too wide for the scanner? Any responsibility on the patient for being so unhealthy? Any responsibility for being sedentary leading to a PE?
+I’m sorry but sure the doc can do better here but at some point human beings need to have some accountability for their own health. 
+Great post by the way.
+I think you are obligated to get a CT scan or V/Q scan some how. If that means admitting the patient putting them on heparin (lovenox hard to dose in obese patients) and let the admit team deal with the transfer.
+Or if you documented a discussion with the patient regarding needing to get a CT scan — then that would be reasonable.
+But look, lets be honest here. The patient is fat. And the doctor</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <button class="print-button" onclick="window.print()">
+        <i class="fas fa-print"></i> Print Report
+    </button>
+    
+    <script>
+        // Collapsible sections
+        document.querySelectorAll('.section-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const content = header.nextElementSibling;
+                const icon = header.querySelector('i:last-child');
+                
+                content.classList.toggle('content-collapsed');
+                icon.classList.toggle('fa-chevron-down');
+                icon.classList.toggle('fa-chevron-up');
+            });
+        });
+        
+        // Smooth scrolling for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+        
