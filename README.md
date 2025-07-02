@@ -116,7 +116,18 @@ An AI agent capable of processing text, images (e.g., scans, x-rays), and speech
 
 ## Patient Oriented Discharge Summary HTML Report
 
-Generates patient-friendly HTML discharge summaries with layman explanations, medication instructions, follow-up tasks, and physician contact info. Promotes better adherence and understanding post-discharge.
+![PODS Report Demo 2](https://nbahador.github.io/healthcare-ai-demos-api/Patient_Oriented_Discharge_Summary_HTML_report/demo2.png)
+
+![PODS Report Demo 1](https://nbahador.github.io/healthcare-ai-demos-api/Patient_Oriented_Discharge_Summary_HTML_report/demo1.png)
+
+Click on the following links to view interactive artifacts that map the complete flow of data processing, from initial input to final Patient Oriented Discharge Summary (PODS) report generation:
+
+- [Link 1:](https://nbahador.github.io/healthcare-ai-demos-api/Patient_Oriented_Discharge_Summary_HTML_report/workflow_5.html)
+
+- [Link 2:](https://nbahador.github.io/healthcare-ai-demos-api/Patient_Oriented_Discharge_Summary_HTML_report/workflow_1.html)
+
+[Click here to view a sample generated Patient Oriented Discharge Summary (PODS) including clinical findings, medications, follow-up care, and emergency protocols for improved patient understanding and care continuity.](https://nbahador.github.io/healthcare-ai-demos-api/Patient_Oriented_Discharge_Summary_HTML_report/pods_report_20250630_195050.html)
+
 
 [⬆ Back to Table of Contents](#table-of-contents)
 
