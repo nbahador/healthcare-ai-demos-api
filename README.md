@@ -19,7 +19,7 @@ This project was developed as part of the **Gradio Agents-MCP Hackathon**, which
 
 ## Fall Analysis Report
 
-![Fall Analysis Report Image](https://raw.githubusercontent.com/USERNAME/REPO_NAME/BRANCH/PATH/TO/IMAGE.png)
+![Fall Analysis Report Image](https://raw.githubusercontent.com/nbahador/healthcare-ai-demos-api/Fall_analysis_report/demo_report_image.png)
 
 The Fall Prevention Analysis System evaluates environmental risks from images to help reduce fall hazards through detailed assessments and actionable reports.
 
