@@ -76,7 +76,14 @@ This module is a medical search system that processes queries, searches multiple
 
 ## Medical Symptom Analyzer
 
-Input symptoms and receive an AI-driven analysis that includes differential diagnoses, recommended tests, and risk stratification. Powered by a large dataset of anonymized patient outcomes and clinical guidelines.
+![Medical Symptom Analyzer Demo 1](https://nbahador.github.io/healthcare-ai-demos-api/Medical_Symptom_Analyzer/demo1.png)
+
+![Medical Symptom Analyzer App](https://nbahador.github.io/healthcare-ai-demos-api/Medical_Symptom_Analyzer/App.png)
+
+[Click here to view the medical triage workflow that transforms patient symptoms into structured reports through a 7-stage process, from data collection to multi-format output.](https://nbahador.github.io/healthcare-ai-demos-api/Medical_Symptom_Analyzer/workflow.html)
+
+[Click here to view a sample triage report for a 45-year-old male with urgent shortness of breath, listing possible conditions, immediate actions, and warning signs.](https://nbahador.github.io/healthcare-ai-demos-api/Medical_Symptom_Analyzer/report_45yo_male_20250701_205911.html)
+
 
 [⬆ Back to Table of Contents](#table-of-contents)
 
