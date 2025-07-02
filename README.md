@@ -48,7 +48,12 @@ This module is a Medical Case Analysis System that leverages AI to identify simi
 
 ## Medical Case Report
 
-Generate structured medical reports summarizing patient history, exam results, diagnostics, and recommendations. Designed for physicians needing consistent, shareable, and EHR-compatible documentation.
+![Medical Search Report Demo](https://nbahador.github.io/healthcare-ai-demos-api/Medical_Search_Report/demo1.png)
+
+👉 [Click here to view an interactive medical search system visualization showcasing a five-step workflow from query processing to report generation](https://nbahador.github.io/healthcare-ai-demos-api/Medical_Search_Report/workflow.html)
+
+👉 [Click here to view a sample generated insights report analyzing symptoms (weight loss, night sweats, swollen lymph nodes) for a 60-year-old female, providing potential causes, diagnostic approaches, treatment options, and research-backed findings](https://nbahador.github.io/healthcare-ai-demos-api/Medical_Search_Report/medical_report.html)
+
 
 [⬆ Back to Table of Contents](#table-of-contents)
 
