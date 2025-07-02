@@ -1,6 +1,6 @@
 # 🏥 Medical AI Tools Repository
 
-> **A comprehensive suite of AI-powered healthcare solutions developed for the Gradio Agents-MCP Hackathon**
+> **A series of AI-powered healthcare solutions developed for the Gradio Agents-MCP Hackathon**
 
 [![Healthcare AI](https://img.shields.io/badge/Healthcare-AI-blue?style=for-the-badge&logo=health&logoColor=white)](https://github.com)
 [![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)](https://github.com)
