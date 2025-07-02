@@ -6,7 +6,7 @@ This project was developed as part of the **Gradio Agents-MCP Hackathon**, which
 
 ## Table of Contents
 
-- [Fall Analysis Report](#fall-analysis-report)
+- [Fall Prevention Analysis System](#fall_prevention_analysis_system)
 - [Medical Case Analysis](#medical-case-analysis)
 - [Medical Case Report](#medical-case-report)
 - [Medical Search Report](#medical-search-report)
@@ -17,7 +17,7 @@ This project was developed as part of the **Gradio Agents-MCP Hackathon**, which
 
 ---
 
-## Fall Analysis Report
+## Fall Prevention Analysis System
 
 ![Fall Analysis Report Image](https://nbahador.github.io/healthcare-ai-demos-api/Fall_analysis_report/demo_report_image.png)
 
