@@ -6,7 +6,7 @@ This project was developed as part of the **Gradio Agents-MCP Hackathon**, which
 
 ## Table of Contents
 
-- [Fall Prevention Analysis System](#fall_prevention_analysis_system)
+- [Fall Prevention Analysis System](#fall-prevention-analysis-system)
 - [Medical Case Analysis System](#medical-case-analysis-system)
 - [Medical Search Report](#medical-search-report)
 - [Medical Case Report](#medical-case-report)
