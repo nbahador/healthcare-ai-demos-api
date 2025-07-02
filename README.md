@@ -166,11 +166,11 @@ Intelligent medication identification system that uses computer vision to recogn
 Advanced AI system utilizing the Qwen2.5-VL-72B-Instruct model through Nebius API for sophisticated multi-modal medical analysis.
 
 ### Technical Specifications
-- **Model**: Qwen2.5-VL-72B-Instruct via Nebius API
-- **Input Types**: Text prompts and medical images
-- **Processing**: Advanced reasoning frameworks
-- **Output**: Structured reports with academic citations
-- **Capabilities**: Complex medical image interpretation and analysis
+- **Multi-Modal Processing**: Handles text prompts and medical images
+- **Advanced AI Backend**: Powered by Qwen2.5-VL-72B-Instruct model via Nebius AI API
+- **Cloud-Native Deployment**: Fully serverless architecture on Modal
+- **Professional Reporting**: Generates HTML medical reports
+- **Real-Time Communication**: WebSocket-based MCP (Multi-Modal Control Protocol) for bidirectional flow
 
 ### Resources
 - 📊 **[Sample Analysis](https://nbahador.github.io/healthcare-ai-demos-api/Multi_Modal_AI_Agent/report_2.html)** - Comprehensive multi-modal medical report
