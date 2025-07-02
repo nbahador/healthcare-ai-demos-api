@@ -25,7 +25,7 @@ This repository showcases a collection of innovative AI-powered healthcare appli
 
 | Section | Description |
 |---------|-------------|
-| [🛡️ Fall Prevention Analysis](#-fall-prevention-analysis-system) | Environmental risk assessment for fall prevention |
+| [🛡️ Fall Prevention Analysis System](#-fall-prevention-analysis-system) | Environmental risk assessment for fall prevention |
 | [📊 Medical Case Analysis](#-medical-case-analysis-system) | Historical case matching and analysis |
 | [🔍 Medical Search Report](#-medical-search-report) | Multi-source medical information retrieval |
 | [📋 Medical Case Report](#-medical-case-report) | Comprehensive case documentation and analysis |
@@ -49,6 +49,8 @@ Advanced environmental risk assessment system that analyzes images to identify p
 - 📊 **[Workflow Documentation](https://nbahador.github.io/healthcare-ai-demos-api/Fall_analysis_report/Workflow.html)** - Complete system workflow and technical specifications
 - 📋 **[Sample Report](https://nbahador.github.io/healthcare-ai-demos-api/Fall_analysis_report/fall_analysis_report_20250630_225500.html)** - Example fall hazard assessment report
 
+[⬆ Back to Table of Contents](#table-of-contents)
+
 ---
 
 ## 📊 Medical Case Analysis System
@@ -66,6 +68,8 @@ Intelligent case matching system that leverages AI embeddings to identify simila
   <img src="https://nbahador.github.io/healthcare-ai-demos-api/Medical-case-analysis/images/deploying_9.jpg" alt="Analysis Results" width="400" />
 </div>
 
+[⬆ Back to Table of Contents](#table-of-contents)
+
 ---
 
 ## 🔍 Medical Search Report
@@ -81,6 +85,8 @@ Comprehensive medical information retrieval system that processes queries across
 - 🔄 **[Interactive Workflow](https://nbahador.github.io/healthcare-ai-demos-api/Medical_Search_Report/workflow.html)** - Five-step process visualization
 - 📄 **[Sample Report](https://nbahador.github.io/healthcare-ai-demos-api/Medical_Search_Report/medical_report.html)** - Clinical analysis for 60-year-old female patient
 
+[⬆ Back to Table of Contents](#table-of-contents)
+
 ---
 
 ## 📋 Medical Case Report
@@ -95,6 +101,8 @@ Advanced case documentation system that extracts structured information from med
 ### Resources
 - 🔄 **[Complete Workflow](https://nbahador.github.io/healthcare-ai-demos-api/Medical_case_report/workflow.html)** - End-to-end process visualization
 - 📊 **[Detailed Report](https://nbahador.github.io/healthcare-ai-demos-api/Medical_case_report/medical_case_report_20250630_115744.html)** - Comprehensive case analysis example
+
+[⬆ Back to Table of Contents](#table-of-contents)
 
 ---
 
@@ -115,6 +123,8 @@ AI-powered triage system that analyzes patient symptoms and provides structured 
 ### Resources
 - 🔄 **[7-Stage Workflow](https://nbahador.github.io/healthcare-ai-demos-api/Medical_Symptom_Analyzer/workflow.html)** - Complete triage process documentation
 - 🚨 **[Urgent Case Report](https://nbahador.github.io/healthcare-ai-demos-api/Medical_Symptom_Analyzer/report_45yo_male_20250701_205911.html)** - Sample assessment for respiratory emergency
+
+[⬆ Back to Table of Contents](#table-of-contents)
 
 ---
 
@@ -137,6 +147,8 @@ Intelligent medication identification system that uses computer vision to recogn
 - 🔄 **[System Workflow](https://nbahador.github.io/healthcare-ai-demos-api/Medication_Wallet/workflow.html)** - Photo-to-report process documentation
 - 💊 **[Safety Report](https://nbahador.github.io/healthcare-ai-demos-api/Medication_Wallet/report.html)** - Comprehensive Ibuprofen safety analysis
 
+[⬆ Back to Table of Contents](#table-of-contents)
+
 ---
 
 ## 🤖 Multi-Modal AI Agent
@@ -158,6 +170,8 @@ Advanced AI system utilizing the Qwen2.5-VL-72B-Instruct model through Nebius AP
 ### Resources
 - 📊 **[Sample Analysis](https://nbahador.github.io/healthcare-ai-demos-api/Multi_Modal_AI_Agent/report_2.html)** - Comprehensive multi-modal medical report
 
+[⬆ Back to Table of Contents](#table-of-contents)
+
 ---
 
 ## 📄 Patient Oriented Discharge Summary
@@ -178,6 +192,8 @@ Specialized system for creating Patient Oriented Discharge Summary (PODS) report
 - 🔄 **[Process Flow 1](https://nbahador.github.io/healthcare-ai-demos-api/Patient_Oriented_Discharge_Summary_HTML_report/workflow_5.html)** - Complete data processing workflow
 - 🔄 **[Process Flow 2](https://nbahador.github.io/healthcare-ai-demos-api/Patient_Oriented_Discharge_Summary_HTML_report/workflow_1.html)** - Alternative workflow visualization
 - 📋 **[Sample PODS Report](https://nbahador.github.io/healthcare-ai-demos-api/Patient_Oriented_Discharge_Summary_HTML_report/pods_report_20250630_195050.html)** - Complete patient discharge summary
+
+[⬆ Back to Table of Contents](#table-of-contents)
 
 ---
 
