@@ -21,8 +21,8 @@ This repository showcases a collection of innovative AI-powered healthcare appli
 
 ---
 
-🗂️ 
-## Table of Contents
+
+🗂️  ## Table of Contents
 
 | Section | Description |
 |---------|-------------|
