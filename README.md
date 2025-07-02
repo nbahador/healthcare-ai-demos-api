@@ -12,14 +12,6 @@
 
 This repository showcases a collection of innovative AI-powered healthcare applications developed during the **Gradio Agents-MCP Hackathon**. Each solution addresses critical healthcare challenges including patient monitoring, diagnostic assistance, medical reporting, and personalized care delivery.
 
-### 🎯 Key Features
-
-- **AI-Powered Analysis**: Advanced machine learning models for medical data processing
-- **Multi-Modal Integration**: Support for text, image, and structured data inputs
-- **Clinical Decision Support**: Evidence-based recommendations and insights
-- **Patient-Centric Design**: User-friendly interfaces for healthcare professionals
-- **Comprehensive Reporting**: Detailed HTML reports with actionable insights
-
 ---
 
 ## 🗂️ Table of Contents
@@ -46,12 +38,6 @@ This repository showcases a collection of innovative AI-powered healthcare appli
 ### Overview
 Advanced environmental risk assessment system that analyzes images to identify potential fall hazards and generates comprehensive safety reports.
 
-### Key Capabilities
-- **Image Analysis**: Computer vision-based hazard detection
-- **Risk Assessment**: Quantitative scoring of environmental dangers
-- **Actionable Recommendations**: Specific steps to mitigate identified risks
-- **Detailed Reporting**: Professional HTML reports with visual indicators
-
 ### Resources
 - 📊 **[Workflow Documentation](https://nbahador.github.io/healthcare-ai-demos-api/Fall_analysis_report/Workflow.html)** - Complete system workflow and technical specifications
 - 📋 **[Sample Report](https://nbahador.github.io/healthcare-ai-demos-api/Fall_analysis_report/fall_analysis_report_20250630_225500.html)** - Example fall hazard assessment report
@@ -66,12 +52,6 @@ Advanced environmental risk assessment system that analyzes images to identify p
 
 ### Overview
 Intelligent case matching system that leverages AI embeddings to identify similar historical cases and generate comprehensive analytical reports.
-
-### Technical Architecture
-- **Nebius API Integration**: Advanced embedding generation for case similarity
-- **Cosine Similarity**: Mathematical approach to case matching
-- **Historical Database**: Extensive repository of medical cases
-- **Report Generation**: Automated creation of detailed case analyses
 
 ### Gallery
 <div align="center">
@@ -90,12 +70,6 @@ Intelligent case matching system that leverages AI embeddings to identify simila
 ### Overview
 Comprehensive medical information retrieval system that processes queries across multiple clinical sources and generates evidence-based reports.
 
-### Features
-- **Multi-Source Search**: Integration with various medical databases
-- **Query Processing**: Natural language understanding for medical queries
-- **Clinical Data Analysis**: Evidence-based information synthesis
-- **Professional Reporting**: Structured output with citations and recommendations
-
 ### Resources
 - 🔄 **[Interactive Workflow](https://nbahador.github.io/healthcare-ai-demos-api/Medical_Search_Report/workflow.html)** - Five-step process visualization
 - 📄 **[Sample Report](https://nbahador.github.io/healthcare-ai-demos-api/Medical_Search_Report/medical_report.html)** - Clinical analysis for 60-year-old female patient
@@ -110,13 +84,6 @@ Comprehensive medical information retrieval system that processes queries across
 
 ### Overview
 Advanced case documentation system that extracts structured information from medical records and creates comprehensive analytical reports.
-
-### Core Functions
-- **Data Extraction**: Automated parsing of patient information
-- **Timeline Construction**: Chronological event mapping
-- **Entity Recognition**: Identification of symptoms, tests, and treatments
-- **Knowledge Graph Creation**: Relationship mapping between medical entities
-- **Clinical Insights**: Evidence-based diagnostic and treatment recommendations
 
 ### Resources
 - 🔄 **[Complete Workflow](https://nbahador.github.io/healthcare-ai-demos-api/Medical_case_report/workflow.html)** - End-to-end process visualization
@@ -133,13 +100,7 @@ Advanced case documentation system that extracts structured information from med
 ### Overview
 AI-powered triage system that analyzes patient symptoms and provides structured clinical assessments with urgency prioritization.
 
-### Clinical Capabilities
-- **Symptom Assessment**: Comprehensive evaluation of patient complaints
-- **Triage Classification**: Priority-based categorization system
-- **Risk Stratification**: Evidence-based urgency determination
-- **Clinical Recommendations**: Actionable next steps for healthcare providers
-
-### Interface Preview
+### Gallery
 <div align="center">
   <img src="https://nbahador.github.io/healthcare-ai-demos-api/Medical_Symptom_Analyzer/demo1.png" alt="Analyzer Interface" width="600" />
 </div>
@@ -159,13 +120,7 @@ AI-powered triage system that analyzes patient symptoms and provides structured 
 ### Overview
 Intelligent medication identification system that uses computer vision to recognize medications from photos and generates comprehensive safety reports.
 
-### Key Features
-- **Photo Recognition**: Advanced image processing for medication identification
-- **Drug Database**: Comprehensive medication information repository
-- **Safety Analysis**: Drug interaction and contraindication checking
-- **Patient Education**: Clear, accessible medication information
-
-### Application Interface
+### Gallery
 <div align="center">
   <img src="https://nbahador.github.io/healthcare-ai-demos-api/Medication_Wallet/demo2.png" alt="Medication Interface" width="400" />
   <img src="https://nbahador.github.io/healthcare-ai-demos-api/Medication_Wallet/demo1.png" alt="Recognition Results" width="400" />
@@ -193,12 +148,6 @@ Advanced AI system utilizing the Qwen2.5-VL-72B-Instruct model through Nebius AP
 - **Output**: Structured reports with academic citations
 - **Capabilities**: Complex medical image interpretation and analysis
 
-### Features
-- **Academic Integration**: Automated citation retrieval and validation
-- **Reasoning Framework**: Sophisticated clinical decision support
-- **Multi-Modal Processing**: Simultaneous text and image analysis
-- **Professional Reporting**: Research-grade documentation standards
-
 ### Resources
 - 📊 **[Sample Analysis](https://nbahador.github.io/healthcare-ai-demos-api/Multi_Modal_AI_Agent/report_2.html)** - Comprehensive multi-modal medical report
 
@@ -213,13 +162,7 @@ Advanced AI system utilizing the Qwen2.5-VL-72B-Instruct model through Nebius AP
 ### Overview
 Specialized system for creating Patient Oriented Discharge Summary (PODS) reports that transform complex medical information into patient-friendly documentation.
 
-### Core Benefits
-- **Patient-Centered Design**: Medical information in accessible language
-- **Comprehensive Coverage**: Complete care instructions and follow-up plans
-- **Emergency Protocols**: Clear guidance for urgent situations
-- **Care Continuity**: Seamless transition from hospital to home care
-
-### Interface Gallery
+### Gallery
 <div align="center">
   <img src="https://nbahador.github.io/healthcare-ai-demos-api/Patient_Oriented_Discharge_Summary_HTML_report/demo1.png" alt="PODS Interface" width="600" />
 </div>
@@ -231,71 +174,13 @@ Specialized system for creating Patient Oriented Discharge Summary (PODS) report
 
 ---
 
-## 🚀 Getting Started
-
-### Prerequisites
-- Python 3.8+
-- Required API credentials (Nebius, Gradio)
-- Healthcare data processing permissions
-
-### Installation
-```bash
-# Clone the repository
-git clone https://github.com/your-repo/medical-ai-tools
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Configure API credentials
-cp config.example.json config.json
-# Edit config.json with your API keys
-```
-
-### Quick Start
-```python
-from medical_ai_tools import MedicalAnalyzer
-
-# Initialize the analyzer
-analyzer = MedicalAnalyzer(config='config.json')
-
-# Run analysis
-result = analyzer.analyze_case(patient_data)
-```
-
----
-
-## 🤝 Contributing
-
-We welcome contributions to improve and expand these healthcare AI tools. Please read our [Contributing Guidelines](CONTRIBUTING.md) before submitting pull requests.
-
-### Development Setup
-1. Fork the repository
-2. Create a feature branch
-3. Install development dependencies: `pip install -r requirements-dev.txt`
-4. Run tests: `pytest tests/`
-5. Submit a pull request
-
----
-
-## 📜 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
 ## 🙏 Acknowledgments
 
-- **Gradio Agents-MCP Hackathon** - For providing API credits and platform support
-- **Nebius API** - For advanced AI model access
-- **Healthcare Community** - For feedback and validation of clinical applications
+- **Gradio Agents-MCP Hackathon**
+- **Nebius** - For providing $25 API credits to power hackathon projects
+- **Modal Labs** - For providing $250 credits to build serverless AI applications during the hackathon.
 
 ---
-
-## 📞 Contact & Support
-
-- **Issues**: [GitHub Issues](https://github.com/your-repo/medical-ai-tools/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/your-repo/medical-ai-tools/discussions)
-- **Email**: support@medical-ai-tools.com
 
 ---
 
