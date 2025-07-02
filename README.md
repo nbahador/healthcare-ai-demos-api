@@ -8,6 +8,13 @@
 
 ---
 
+## 📋 Codes
+
+The code for each module is provided in its corresponding folder within this repository.  
+Please navigate to the respective folder to find the module-specific code.
+
+---
+
 ## 📋 Overview
 
 This repository showcases a collection of innovative AI-powered healthcare applications developed during the **Gradio Agents-MCP Hackathon**. Each solution addresses critical healthcare challenges including patient monitoring, diagnostic assistance, medical reporting, and personalized care delivery.
@@ -181,10 +188,3 @@ Specialized system for creating Patient Oriented Discharge Summary (PODS) report
 - **Modal Labs** - For providing $250 credits to build serverless AI applications during the hackathon.
 
 ---
-
----
-
-<div align="center">
-  <h3>🌟 Star this repository if you find it helpful!</h3>
-  <p><i>Building the future of AI-powered healthcare, one tool at a time.</i></p>
-</div>
