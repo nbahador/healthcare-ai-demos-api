@@ -1,12 +1,12 @@
 # 🏥 Rapid Prototyping with Nebius AI Studio & Modal for AI-Driven Healthcare Analytics
 
-Results from quick experiments conducted during the Hugging Face & Gradio Hackathon. Reports were auto-generated using API calls from Nebius AI Studio and Modal's serverless cloud. API credentials were provided during the Hackathon. Some modules use only Nebius AI and some combine Nebius & Modal. 
-
 > **A series of AI-powered healthcare solutions developed for the Gradio Agents-MCP Hackathon**
 
 [![Healthcare AI](https://img.shields.io/badge/Healthcare-AI-blue?style=for-the-badge&logo=health&logoColor=white)](https://github.com)
 [![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)](https://github.com)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
+
+Results from quick experiments conducted during the Hugging Face & Gradio Hackathon. Reports were auto-generated using API calls from Nebius AI Studio and Modal's serverless cloud. API credentials were provided during the Hackathon. Some modules use only Nebius AI and some combine Nebius & Modal. 
 
 ---
 
