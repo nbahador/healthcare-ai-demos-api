@@ -76,9 +76,9 @@ This module is a medical search system that processes queries, searches multiple
 
 ## Medical Symptom Analyzer
 
-![Medical Symptom Analyzer Demo 1](https://nbahador.github.io/healthcare-ai-demos-api/Medical_Symptom_Analyzer/demo1.png)
-
 ![Medical Symptom Analyzer App](https://nbahador.github.io/healthcare-ai-demos-api/Medical_Symptom_Analyzer/App.png)
+
+![Medical Symptom Analyzer Demo 1](https://nbahador.github.io/healthcare-ai-demos-api/Medical_Symptom_Analyzer/demo1.png)
 
 [Click here to view the medical triage workflow that transforms patient symptoms into structured reports through a 7-stage process, from data collection to multi-format output.](https://nbahador.github.io/healthcare-ai-demos-api/Medical_Symptom_Analyzer/workflow.html)
 
