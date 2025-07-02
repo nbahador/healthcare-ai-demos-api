@@ -108,6 +108,8 @@ This module is a medical search system that processes queries, searches multiple
 
 ## Multi Modal AI Agent
 
+![Multi-Modal AI Agent Demo 1](https://nbahador.github.io/healthcare-ai-demos-api/Multi_Modal_AI_Agent/demo1.png)
+
 This module leverages advanced reasoning frameworks, academic citation retrieval, and structured report generation by utilizing the Qwen2.5-VL-72B-Instruct model through the Nebius API to process both text prompts and images, producing report.
 
 [Click here to view a sample report](https://nbahador.github.io/healthcare-ai-demos-api/Multi_Modal_AI_Agent/report_2.html)
