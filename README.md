@@ -1,5 +1,4 @@
 # 🏥 Rapid Prototyping with Nebius AI Studio & Modal 
-> ** for AI-Driven Healthcare Analytics**
 
 > **A series of AI-powered healthcare solutions developed for the Gradio Agents-MCP Hackathon**
 
