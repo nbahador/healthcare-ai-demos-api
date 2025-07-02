@@ -8,8 +8,8 @@ This project was developed as part of the **Gradio Agents-MCP Hackathon**, which
 
 - [Fall Prevention Analysis System](#fall_prevention_analysis_system)
 - [Medical Case Analysis System](#medical-case-analysis-system)
-- [Medical Case Report](#medical-case-report)
 - [Medical Search Report](#medical-search-report)
+- [Medical Case Report](#medical-case-report)
 - [Medical Symptom Analyzer](#medical-symptom-analyzer)
 - [Medication Wallet](#medication-wallet)
 - [Multi Modal AI Agent](#multi-modal-ai-agent)
@@ -46,9 +46,11 @@ This module is a Medical Case Analysis System that leverages AI to identify simi
 
 ---
 
-## Medical Case Report
+## Medical Search Report
 
 ![Medical Search Report Demo](https://nbahador.github.io/healthcare-ai-demos-api/Medical_Search_Report/demo1.png)
+
+This module is a medical search system that processes queries, searches multiple sources, analyzes clinical data, and generates report.
 
 👉 [Click here to view an interactive medical search system visualization showcasing a five-step workflow from query processing to report generation](https://nbahador.github.io/healthcare-ai-demos-api/Medical_Search_Report/workflow.html)
 
@@ -59,9 +61,14 @@ This module is a Medical Case Analysis System that leverages AI to identify simi
 
 ---
 
-## Medical Search Report
+## Medical Case Report
 
-A tool that searches medical literature and clinical databases based on user queries. It summarizes findings and ranks results based on relevance, recency, and clinical impact.
+![Medical Case Report Demo](https://nbahador.github.io/healthcare-ai-demos-api/Medical_case_report/demo1.png)
+
+[Explore an interactive webpage that visualizes the complete medical case analysis workflow, including input processing, structure extraction, knowledge graph creation, clinical analysis, and report generation.](https://nbahador.github.io/healthcare-ai-demos-api/Medical_case_report/workflow.html)
+
+[View a detailed report that extracts and analyzes patient data, timeline events, and entities such as symptoms, tests, and treatments, offering diagnostic and treatment insights with key considerations.](https://nbahador.github.io/healthcare-ai-demos-api/Medical_case_report/medical_case_report_20250630_115744.html)
+
 
 [⬆ Back to Table of Contents](#table-of-contents)
 
