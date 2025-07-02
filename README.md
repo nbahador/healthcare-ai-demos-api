@@ -7,7 +7,7 @@ This project was developed as part of the **Gradio Agents-MCP Hackathon**, which
 ## Table of Contents
 
 - [Fall Prevention Analysis System](#fall_prevention_analysis_system)
-- [Medical Case Analysis](#medical-case-analysis)
+- [Medical Case Analysis System](#medical-case-analysis-system)
 - [Medical Case Report](#medical-case-report)
 - [Medical Search Report](#medical-search-report)
 - [Medical Symptom Analyzer](#medical-symptom-analyzer)
@@ -31,9 +31,16 @@ The Fall Prevention Analysis System evaluates environmental risks from images to
 
 ---
 
-## Medical Case Analysis
+## Medical Case Analysis System
 
-This module allows users to input complex patient cases and receive AI-assisted analysis. It supports diagnosis, identifies potential missing data, and helps guide decision-making using large medical knowledge graphs and clinical rules.
+![Deploying 10](https://nbahador.github.io/healthcare-ai-demos-api/Medical-case-analysis/images/deploying_10.jpg)
+
+![Deploying 11](https://nbahador.github.io/healthcare-ai-demos-api/Medical-case-analysis/images/deploying_11.jpg)
+
+This module is a Medical Case Analysis System that leverages AI to identify similar historical cases and generate detailed reports. It utilizes the Nebius API to create embeddings for patient cases, and employs cosine similarity to find the most relevant historical cases for new patients.
+
+![Deploying 9](https://nbahador.github.io/healthcare-ai-demos-api/Medical-case-analysis/images/deploying_9.jpg)
+
 
 [⬆ Back to Table of Contents](#table-of-contents)
 
