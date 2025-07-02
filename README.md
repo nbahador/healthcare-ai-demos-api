@@ -37,7 +37,7 @@ This repository showcases a collection of innovative AI-powered healthcare appli
 
 ---
 
-## Fall Prevention Analysis System {#fall-prevention-analysis-system}
+## Fall Prevention Analysis System
 
 <div align="center">
   <img src="https://nbahador.github.io/healthcare-ai-demos-api/Fall_analysis_report/demo_report_image.png" alt="Fall Analysis Report" width="600" />
@@ -55,7 +55,7 @@ Advanced environmental risk assessment system that analyzes images to identify p
 
 ---
 
-## Medical Case Analysis System {#medical-case-analysis-system}
+## Medical Case Analysis System
 
 <div align="center">
   <img src="https://nbahador.github.io/healthcare-ai-demos-api/Medical-case-analysis/images/deploying_10.jpg" alt="Medical Case Analysis" width="500" />
@@ -74,7 +74,7 @@ Intelligent case matching system that leverages AI embeddings to identify simila
 
 ---
 
-## Medical Search Report {#medical-search-report}
+## Medical Search Report
 
 <div align="center">
   <img src="https://nbahador.github.io/healthcare-ai-demos-api/Medical_Search_Report/demo1.png" alt="Medical Search Demo" width="600" />
@@ -92,7 +92,7 @@ Comprehensive medical information retrieval system that processes queries across
 
 ---
 
-## Medical Case Report {#medical-case-report}
+## Medical Case Report
 
 <div align="center">
   <img src="https://nbahador.github.io/healthcare-ai-demos-api/Medical_case_report/demo1.png" alt="Case Report Demo" width="600" />
@@ -110,7 +110,7 @@ Advanced case documentation system that extracts structured information from med
 
 ---
 
-## Medical Symptom Analyzer {#medical-symptom-analyzer}
+## Medical Symptom Analyzer
 
 <div align="center">
   <img src="https://nbahador.github.io/healthcare-ai-demos-api/Medical_Symptom_Analyzer/App.png" alt="Symptom Analyzer App" width="500" />
@@ -133,7 +133,7 @@ AI-powered triage system that analyzes patient symptoms and provides structured 
 
 ---
 
-## Medication Wallet {#medication-wallet}
+## Medication Wallet
 
 <div align="center">
   <img src="https://nbahador.github.io/healthcare-ai-demos-api/Medication_Wallet/app.png" alt="Medication Wallet App" width="500" />
@@ -157,7 +157,7 @@ Intelligent medication identification system that uses computer vision to recogn
 
 ---
 
-## Multi-Modal AI Agent {#multi-modal-ai-agent}
+## Multi-Modal AI Agent
 
 <div align="center">
   <img src="https://nbahador.github.io/healthcare-ai-demos-api/Multi_Modal_AI_Agent/demo1.png" alt="Multi-Modal AI Demo" width="600" />
@@ -181,7 +181,7 @@ Advanced AI system utilizing the Qwen2.5-VL-72B-Instruct model through Nebius AP
 
 ---
 
-## Patient Oriented Discharge Summary {#patient-oriented-discharge-summary}
+## Patient Oriented Discharge Summary
 
 <div align="center">
   <img src="https://nbahador.github.io/healthcare-ai-demos-api/Patient_Oriented_Discharge_Summary_HTML_report/demo2.png" alt="PODS Report Demo" width="500" />
