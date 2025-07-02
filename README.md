@@ -26,13 +26,13 @@ This repository showcases a collection of innovative AI-powered healthcare appli
 | Section | Description |
 |---------|-------------|
 | [🛡️ Fall Prevention Analysis System](#-fall-prevention-analysis-system) | Environmental risk assessment for fall prevention |
-| [📊 Medical Case Analysis](#-medical-case-analysis-system) | Historical case matching and analysis |
+| [📊 Medical Case Analysis System](#-medical-case-analysis-system) | Historical case matching and analysis |
 | [🔍 Medical Search Report](#-medical-search-report) | Multi-source medical information retrieval |
 | [📋 Medical Case Report](#-medical-case-report) | Comprehensive case documentation and analysis |
 | [🩺 Medical Symptom Analyzer](#-medical-symptom-analyzer) | AI-powered symptom triage and assessment |
 | [💊 Medication Wallet](#-medication-wallet) | Medication identification and safety reports |
-| [🤖 Multi-Modal AI Agent](#-multi-modal-ai-agent) | Advanced reasoning with text and image processing |
-| [📄 Patient Discharge Summary](#-patient-oriented-discharge-summary) | Patient-friendly discharge documentation |
+| [🤖 Multi Modal AI Agent](#-multi-modal-ai-agent) | Advanced reasoning with text and image processing |
+| [📄 Patient Oriented Discharge Summary](#-patient-oriented-discharge-summary) | Patient-friendly discharge documentation |
 
 ---
 
